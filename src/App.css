@@ -1,0 +1,27 @@
+.App {
+  text-align: left;
+}
+
+table {
+  margin-left: 10%;
+  margin-top: 10%;
+  width: 80%;
+  /* border: 1px 1px 1px 1px; */
+  border-color: brown;
+}
+
+td {
+  text-align: center ;
+}
+
+thead {
+  text-align: center ;
+  background-color: black;
+  color: aquamarine;
+}
+
+tfoot {
+  text-align: center ;
+  background-color: gray;
+  color: aquamarine;
+}
