@@ -13,7 +13,7 @@ const tableContent = {
 
 const App = () =>
     <div className='App'>
-        <Table table={tableContent} cols="5"/>
+        <Table table={tableContent} cols="7"/>
     </div>
 
 const Header = ({headers, cols}) =>
@@ -25,19 +25,20 @@ const Header = ({headers, cols}) =>
     </thead>
 
 const Data = ({text, id}) =>
-    <td key={id} onClick={(e) => consoleLog(id, e.button)}>{text}</td>
+    <td id={id} key={id} onClick={(e) => consoleLog(id, e)}>{text}</td>
 
-function consoleLog(text) {
-    console.log(text)
+function consoleLog(id,e) {
+    console.log(e.target)
+    e.target.style.background="RED"
 }
 
 const Body = ({rows, cols}) =>
     <tbody>
-    {rows.map((row, rowIndex) => !rowIndex ? null
-        : <tr key={rowIndex}>
+    {rows.map((row, rowIndex) => !rowIndex ? null :
+        <tr key={rowIndex}>
             <td>{rowIndex}</td>
             {row.slice(1, cols).map((text, colIndex) =>
-                <Data id={rowIndex * 10 + colIndex + 1} key={colIndex} text={text}/>)}
+                <Data id={rowIndex * 100 + colIndex + 1} key={colIndex} text={text}/>)}
         </tr>
     )}
     </tbody>
