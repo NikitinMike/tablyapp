@@ -5,9 +5,9 @@ const tableContent = {
     headers: ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт'], rows: [
         [],
         ['', 'jsdidhx', 'ghdhdhd', 'jfjfdjdfdsl', 356778, 'jdiow euhu wsuh', 'hdjfjikshf'],
-        ['', 'uijflsdjh', 'ffffvc', 'ehjjkjf', 6899],
-        ['', 'idjskf', 'vbccfff', 'dhjgfd', 57890],
-        ['', 'ldfjddik', 'cgggh', 'dhjkssdffg', 35789]
+        ['', 'uijflsdjh', 'ffffvc', 'ehjjkjf', 6899,'fiky ukioogy gh','gustukhhg'],
+        ['', 'idjskf', 'vbccfff', 'dhjgfd', 57890, 'fhjjffg gjhh','fhiuturdgu'],
+        ['', 'ldfjddik', 'cgggh', 'dhjkssdffg', 35789,'uuesfibuy ufff','gikofgh'],
     ], footers: ['', '111', '222', 'sum', '', '', '']
 }
 
@@ -25,11 +25,13 @@ const Header = ({headers, cols}) =>
     </thead>
 
 const Data = ({text, id}) =>
-    <td id={id} key={id} onClick={(e) => consoleLog(id, e)}>{text}</td>
+    <td id={id} key={id}
+        onClick={(e) => consoleLog(id, e)}
+    >{text}</td>
 
 function consoleLog(id,e) {
     console.log(e.target)
-    e.target.style.background="RED"
+    e.target.style.background= e.target.style.background?'':'RED'
 }
 
 const Body = ({rows, cols}) =>
