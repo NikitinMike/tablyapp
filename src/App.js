@@ -25,9 +25,10 @@ const Header = ({headers, cols}) =>
     </thead>
 
 const Data = ({text, id}) =>
-    <td id={id} key={id}
-        onClick={(e) => consoleLog(id, e)}
-    >{text}</td>
+    <td id={id} key={id} onClick={(e) => consoleLog(id, e)}>
+        {/*<input type='text' className='form-control' value= {text}/>*/}
+        {text}
+    </td>
 
 function consoleLog(id,e) {
     console.log(e.target)
