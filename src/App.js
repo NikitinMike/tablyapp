@@ -5,15 +5,17 @@ const tableContent = {
     headers: ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт'], rows: [
         [],
         ['', 'jsdidhx', 'ghdhdhd', 'jfjfdjdfdsl', 356778, 'jdiow euhu wsuh', 'hdjfjikshf'],
-        ['', 'uijflsdjh', 'ffffvc', 'ehjjkjf', 6899,'fiky ukioogy gh','gustukhhg'],
-        ['', 'idjskf', 'vbccfff', 'dhjgfd', 57890, 'fhjjffg gjhh','fhiuturdgu'],
-        ['', 'ldfjddik', 'cgggh', 'dhjkssdffg', 35789,'uuesfibuy ufff','gikofgh'],
+        ['', 'uijflsdjh', 'ffffvc', 'ehjjkjf', 6899, 'fiky ukioogy gh', 'gustukhhg'],
+        ['', 'idjskf', 'vbccfff', 'dhjgfd', 57890, 'fhjjffg gjhh', 'fhiuturdgu'],
+        ['', 'ldfjddik', 'cgggh', 'dhjkssdffg', 35789, 'uuesfibuy ufff', 'gikofgh'],
     ], footers: ['', '111', '222', 'sum', '', '', '']
 }
 
 const App = () =>
     <div className='App'>
-        <Table table={tableContent} cols="7"/>
+        {/*<form className='form-control'>*/}
+            <Table table={tableContent} cols="7" caption="SPREADSHEET"/>
+        {/*</form>*/}
     </div>
 
 const Header = ({headers, cols}) =>
@@ -26,13 +28,13 @@ const Header = ({headers, cols}) =>
 
 const Data = ({text, id}) =>
     <td id={id} key={id} onClick={(e) => consoleLog(id, e)}>
-        {/*<input type='text' className='form-control' value= {text}/>*/}
+        {/*<input type='text' className='form-control' name={'ftd' + id} />*/}
         {text}
     </td>
 
-function consoleLog(id,e) {
+function consoleLog(id, e) {
     console.log(e.target)
-    e.target.style.background= e.target.style.background?'':'RED'
+    e.target.style.background = e.target.style.background ? '' : 'RED'
 }
 
 const Body = ({rows, cols}) =>
@@ -55,9 +57,10 @@ const Footer = ({cols, footers}) =>
     </tr>
     </tfoot>
 
-const Table = ({cols, table}) =>
+const Table = ({cols, table,caption}) =>
     <div>
         <table rules='all' frame='border'>
+            <caption>{caption}</caption>
             <Header headers={table.headers} cols={cols}/>
             <Body rows={table.rows} cols={cols}/>
             <Footer cols={cols} footers={table.footers}/>
