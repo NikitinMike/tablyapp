@@ -11,13 +11,6 @@ const tableContent = {
     ], footers: ['', '111', '222', 'sum', '', '', '']
 }
 
-const App = () =>
-    <div className='App'>
-        {/*<form className='form-control'>*/}
-            <Table table={tableContent} cols="7" caption="SPREADSHEET"/>
-        {/*</form>*/}
-    </div>
-
 const Header = ({headers, cols}) =>
     <thead>
     <tr>
@@ -34,7 +27,7 @@ const Data = ({text, id}) =>
 
 function consoleLog(id, e) {
     console.log(e.target)
-    e.target.style.background = e.target.style.background ? '' : 'RED'
+    // e.target.style.background = e.target.style.background ? '' : 'RED'
 }
 
 const Body = ({rows, cols}) =>
@@ -57,7 +50,7 @@ const Footer = ({cols, footers}) =>
     </tr>
     </tfoot>
 
-const Table = ({cols, table,caption}) =>
+const Table = ({cols, table, caption}) =>
     <div>
         <table rules='all' frame='border'>
             <caption>{caption}</caption>
@@ -66,5 +59,34 @@ const Table = ({cols, table,caption}) =>
             <Footer cols={cols} footers={table.footers}/>
         </table>
     </div>
+
+class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: null,
+            isLoaded: false,
+            items: []
+        };
+    }
+
+    render() {
+        return (
+            <div className='App'>
+                {/*<form className='form-control'>*/}
+                <Table table={tableContent} cols="7" caption="SPREADSHEET"/>
+                {/*</form>*/}
+            </div>
+        )
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:3000/')
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch(e => console.log(e))
+    }
+}
 
 export default App
