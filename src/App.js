@@ -1,15 +1,9 @@
 import React from 'react'
 import './App.css'
 
-const tableContent = {
-    headers: ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт'], rows: [
-        [],
-        ['', 'jsdidhx', 'ghdhdhd', 'jfjfdjdfdsl', 356778, 'jdiow euhu wsuh', 'hdjfjikshf'],
-        ['', 'uijflsdjh', 'ffffvc', 'ehjjkjf', 6899, 'fiky ukioogy gh', 'gustukhhg'],
-        ['', 'idjskf', 'vbccfff', 'dhjgfd', 57890, 'fhjjffg gjhh', 'fhiuturdgu'],
-        ['', 'ldfjddik', 'cgggh', 'dhjkssdffg', 35789, 'uuesfibuy ufff', 'gikofgh'],
-    ], footers: ['', '111', '222', 'sum', '', '', '']
-}
+// const headers= ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт']
+// const footers= ['', '111', '222', 'sum', '', '', '']
+// const rows= [[]]
 
 const Header = ({headers, cols}) =>
     <thead>
@@ -30,9 +24,17 @@ function consoleLog(id, e) {
     // e.target.style.background = e.target.style.background ? '' : 'RED'
 }
 
-const Body = ({rows, cols}) =>
+const rows = [
+    ['', 'jsdidhx', 'ghdhdhd', 'jfjfdjdfdsl', 356778, 'jdiow euhu wsuh', 'hdjfjikshf',],
+    ['', 'uijflsdjh', 'ffffvc', 'ehjjkjf', 6899, 'fiky ukioogy gh', 'gustukhhg',],
+    ['', 'idjskf', 'vbccfff', 'dhjgfd', 57890, 'fhjjffg gjhh', 'fhiuturdgu'],
+    ['', 'ldfjddik', 'cgggh', 'dhjkssdffg', 35789, 'uuesfibuy ufff', 'gikofgh'],
+];
+
+const Body = ({ cols}) =>
     <tbody>
-    {rows.map((row, rowIndex) => !rowIndex ? null :
+    {/*{console.log('TBL:',rows)}*/}
+    {rows.map((row, rowIndex) =>
         <tr key={rowIndex}>
             <td>{rowIndex}</td>
             {row.slice(1, cols).map((text, colIndex) =>
@@ -54,9 +56,9 @@ const Table = ({cols, table, caption}) =>
     <div>
         <table rules='all' frame='border'>
             <caption>{caption}</caption>
-            <Header headers={table.headers} cols={cols}/>
+            {/*<Header headers={table.headers} cols={cols}/>*/}
             <Body rows={table.rows} cols={cols}/>
-            <Footer cols={cols} footers={table.footers}/>
+            {/*<Footer cols={cols} footers={table.footers}/>*/}
         </table>
     </div>
 
@@ -67,7 +69,7 @@ class App extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            items: []
+            rows: [[1,2,3,4,5,6,7],[1,2,3,4,5,6,7],]
         };
     }
 
@@ -75,7 +77,7 @@ class App extends React.Component {
         return (
             <div className='App'>
                 {/*<form className='form-control'>*/}
-                <Table table={tableContent} cols="7" caption="SPREADSHEET"/>
+                <Table table= {{rows:this.state.rows}} cols="7" caption="SPREADSHEET"/>
                 {/*</form>*/}
             </div>
         )
@@ -84,7 +86,11 @@ class App extends React.Component {
     componentDidMount() {
         fetch('http://localhost:3000/')
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                this.setState({rows:data})
+                // this.setState({table: {headers,data,footers}})
+                console.log(this.state.rows)
+            })
             .catch(e => console.log(e))
     }
 }
