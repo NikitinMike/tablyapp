@@ -12,16 +12,6 @@ const Header = ({headers, cols}) =>
   </tr>
   </thead>
 
-const Data = ({text, id}) =>
-  <td id={id} key={id} onClick={(e) => consoleLog(id, e)}>
-    {text}
-  </td>
-
-function consoleLog(id, e) {
-  console.log(e.target)
-  // e.target.style.background = e.target.style.background ? '' : 'RED'
-}
-
 const Footer = ({cols, footers}) =>
   <tfoot>
   <tr>
@@ -43,15 +33,28 @@ const Table = ({cols, table, caption}) =>
 
 const Body = ({rows, cols}) =>
   <tbody>
-  {/*{console.log('TBL:', rows)}*/}
   {rows.map((row, rowIndex) =>
     <tr key={rowIndex}>
-      <td>{rowIndex}</td>
-      {row.slice(1, cols).map((text, colIndex) =>
-        <Data id={rowIndex * 100 + colIndex + 1} key={colIndex} text={text}/>)}
+      <td>{row.id}</td>
+      <Data key={'firstName' + rowIndex} text={row.firstName}/>
+      <Data key={'lastName' + rowIndex} text={row.lastName}/>
+      <Data key={'email' + rowIndex} text={row.email}/>
+      <Data key={'phone' + rowIndex} text={row.phone}/>
+      <Data key={'city' + rowIndex} text={row.city}/>
+      <Data key={'country' + rowIndex} text={row.country}/>
     </tr>
   )}
   </tbody>
+
+const Data = ({text, id}) =>
+  <td id={id} key={id} onClick={(e) => consoleLog(id, e)}>
+    {text}
+  </td>
+
+function consoleLog(id, e) {
+  console.log(e.target)
+  // e.target.style.background = e.target.style.background ? '' : 'RED'
+}
 
 class App extends React.Component {
 
@@ -74,12 +77,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/')
+    fetch('http://localhost:3000/contacts')
       .then(response => response.json())
-      .then(data => {
-        this.setState({rows: data.rows})
-        this.setState({isLoaded: true})
-      })
+      .then(data => this.setState({rows: data, isLoaded: true}))
       .catch(e => console.log(e))
   }
 }
