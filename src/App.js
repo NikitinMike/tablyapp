@@ -51,7 +51,9 @@ async function addRow(data) {
       body: JSON.stringify(data)
     })
     .then(response => response.json())
-    .then(res => {console.log(res)})
+    .then(res => {
+      console.log(res)
+    })
     .catch(e => console.log(e))
   window.location.reload();
 }
@@ -61,19 +63,24 @@ const Body = ({rows, cols}) =>
   {rows.map((row, rowIndex) =>
     <tr key={rowIndex}>
       <td key={row.id} onClick={(e) => addRow(row)}>{row.id}</td>
-      <Data key={'firstName' + rowIndex} text={row.firstName}/>
-      <Data key={'lastName' + rowIndex} text={row.lastName}/>
-      <Data key={'email' + rowIndex} text={row.email}/>
-      <Data key={'phone' + rowIndex} text={row.phone}/>
-      <Data key={'city' + rowIndex} text={row.city}/>
-      <Data key={'country' + rowIndex} text={row.country}/>
+      <Data col={'firstName'} text={row.firstName} row={row.id}/>
+      <Data col={'lastName'} text={row.lastName} row={row.id}/>
+      <Data col={'email'} text={row.email} row={row.id}/>
+      <Data col={'phone'} text={row.phone} row={row.id}/>
+      <Data col={'city'} text={row.city} row={row.id}/>
+      <Data col={'country'} text={row.country} row={row.id}/>
       <td onClick={(e) => deleteRow(e, row.id)}>[X]</td>
     </tr>
   )}
   </tbody>
 
-const Data = ({text, id}) =>
-  <td id={id} key={id} onClick={(e) => consoleLog(id, e)}>
+function edit(e, col, text, row) {
+  console.log(e.target)
+  console.log(col, text, row)
+}
+
+const Data = ({col, text, row}) =>
+  <td onClick={(e) => edit(e, col, text, row)}>
     {text}
   </td>
 
@@ -117,7 +124,7 @@ class App extends React.Component {
     this.getData();
   }
 
-  getData(){
+  getData() {
     fetch('http://localhost:3000/contacts')
       .then(response => response.json())
       .then(data => this.setState({rows: data, isLoaded: true}))
