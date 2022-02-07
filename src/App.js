@@ -75,12 +75,20 @@ const Body = ({rows, cols}) =>
   </tbody>
 
 function edit(e, col, text, row) {
-  console.log(e.target)
   console.log(col, text, row)
+  const td = e.target.lastChild
+  if(td && td.localName==='input') td.hidden=false
+  console.log(td)
+  // td.focused=true
 }
+
+const Input = () => <input type='text'/>
 
 const Data = ({col, text, row}) =>
   <td onClick={(e) => edit(e, col, text, row)}>
+    <input hidden={true}
+      // onKeyPress={(e)=>edit2(e)}
+    />
     {text}
   </td>
 
@@ -115,7 +123,9 @@ class App extends React.Component {
     const rows = this.state.rows
     return (
       <div className='App'>
-        <Table table={{headers, rows, footers}} cols="7" caption="C O N T A C T S"/>
+        <form>
+          <Table table={{headers, rows, footers}} cols="7" caption="C O N T A C T S"/>
+        </form>
       </div>
     )
   }
