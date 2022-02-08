@@ -58,6 +58,15 @@ async function addRow(data) {
   window.location.reload();
 }
 
+const Input = () => <input hidden={true}/>
+// onKeyPress={(e)=>edit(e)}
+
+const Data = ({col, text, row}) =>
+    <td onClick={(e) => console.log(e, col, text, row)}>
+      {/*<Input />*/}
+      {text}
+    </td>
+
 const Body = ({rows, cols}) =>
   <tbody>
   {rows.map((row, rowIndex) =>
@@ -69,43 +78,33 @@ const Body = ({rows, cols}) =>
       <Data col={'phone'} text={row.phone} row={row.id}/>
       <Data col={'city'} text={row.city} row={row.id}/>
       <Data col={'country'} text={row.country} row={row.id}/>
+      <td onClick={(e) => editRow(e, row.id)}>[...]</td>
       <td onClick={(e) => deleteRow(e, row.id)}>[X]</td>
     </tr>
   )}
   </tbody>
 
-function edit(e, col, text, row) {
-  console.log(col, text, row)
+function editRow(e, row) {
+  console.log(row)
   const td = e.target.lastChild
-  if(td && td.localName==='input') td.hidden=false
+  // e.target.style.background = e.target.style.background ? '' : 'RED'
+  // if(td && td.localName==='input') td.hidden=false
   console.log(td)
+  // td = <input/>
   // td.focused=true
 }
-
-const Input = () => <input type='text'/>
-
-const Data = ({col, text, row}) =>
-  <td onClick={(e) => edit(e, col, text, row)}>
-    <input hidden={true}
-      // onKeyPress={(e)=>edit2(e)}
-    />
-    {text}
-  </td>
 
 function deleteRow(e, row) {
   console.log(row)
   fetch('http://localhost:3000/contacts/' + row, {method: 'DELETE'})
     .then(response => response.json())
-    .then(data => {
-      console.log(data)
-    })
+    .then(data => console.log(data))
     .catch(e => console.log(e))
   window.location.reload();
 }
 
 function consoleLog(id, e) {
   console.log(e.target)
-  // e.target.style.background = e.target.style.background ? '' : 'RED'
 }
 
 class App extends React.Component {
