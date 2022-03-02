@@ -87,6 +87,8 @@ const Body = ({rows, cols}) =>
 function editRow(e, row) {
   console.log(row)
   const td = e.target.lastChild
+  // const td = this.props.children
+  // const td = React.Children.toArray()
   // e.target.style.background = e.target.style.background ? '' : 'RED'
   // if(td && td.localName==='input') td.hidden=false
   console.log(td)
