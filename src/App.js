@@ -6,19 +6,19 @@ const footers = ['', '111', '222', 'sum', '', '', '']
 
 const Header = ({headers, cols}) =>
     <thead>
-    <tr onClick={(e) => addRow({})}>
-        {headers.slice(0, cols).map((header, index) =>
-            <th key={index}>{header ? header : index}</th>)}
-    </tr>
+        <tr onClick={(e) => addRow({})}>
+            {headers.slice(0, cols).map((header, index) =>
+                <th key={index}>{header ? header : index}</th>)}
+        </tr>
     </thead>
 
 const Footer = ({cols, footers}) =>
     <tfoot>
-    <tr onClick={(e) => addRow({})}>
-        {footers.slice(0, cols).map(
-            (text, index) => <td key={index}>{text ? text : index}</td>
-        )}
-    </tr>
+        <tr onClick={(e) => addRow({})}>
+            {footers.slice(0, cols).map(
+                (text, index) => <td key={index}>{text ? text : index}</td>
+            )}
+        </tr>
     </tfoot>
 
 const Table = ({cols, table, caption}) =>
@@ -58,31 +58,47 @@ async function addRow(data) {
     window.location.reload();
 }
 
-const Input = () => <input hidden={true}/>
-// onKeyPress={(e)=>edit(e)}
-
 const Data = ({col, text, row}) =>
     <td onClick={(e) => console.log(e, col, text, row)}>
         {/*<Input />*/}
-        {text}
+        {row[col]}
     </td>
 
 const Row = ({row, rowIndex}) =>
     <tr key={rowIndex}>
-        <td key={row.id} onClick={(e) => addRow(row)}>{row.id}</td>
-        <Data col={'firstName'} text={row.firstName} row={row.id}/>
-        <Data col={'lastName'} text={row.lastName} row={row.id}/>
-        <Data col={'email'} text={row.email} row={row.id}/>
-        <Data col={'phone'} text={row.phone} row={row.id}/>
-        <Data col={'city'} text={row.city} row={row.id}/>
-        <Data col={'country'} text={row.country} row={row.id}/>
+        <td onClick={(e) => addRow(row)}>{row.id}</td>
+        <Data col={'firstName'} row={row}/>
+        <Data col={'lastName'} row={row}/>
+        <Data col={'email'} row={row}/>
+        <Data col={'phone'} row={row}/>
+        <Data col={'city'} row={row}/>
+        <Data col={'country'} row={row}/>
         <td onClick={(e) => editRow(e, row.id)}>[...]</td>
         <td onClick={(e) => deleteRow(e, row.id)}>[X]</td>
     </tr>
 
+const EditRow = ({row, rowIndex}) =>
+    <tr key={"editRow"}>
+        <td>{rowIndex}</td>
+        <Input col={'firstName'} row={row}/>
+        <Input col={'lastName'} row={row}/>
+        <Input col={'email'} row={row}/>
+        <Input col={'phone'} row={row}/>
+        <Input col={'city'} row={row}/>
+        <Input col={'country'} row={row}/>
+    </tr>
+
+const Input = ({col}) =>
+    <td>
+        <input key={col}/>
+    </td>
+// const Input = () => <input hidden={true}/>
+// onKeyPress={(e)=>edit(e)}
+
 const Body = ({rows, cols}) =>
     <tbody>
-        {rows.map((row, rowIndex) => <Row row={row} rowIndex={rowIndex}/>)}
+        <EditRow row={rows[0]} rowIndex={0}/>
+        {rows.map((row, rowIndex) => <Row key={row.id} row={row} rowIndex={rowIndex}/>)}
     </tbody>
 
 function editRow(e, row) {
