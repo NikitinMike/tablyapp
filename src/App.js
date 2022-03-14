@@ -58,8 +58,8 @@ async function addRow(data) {
     window.location.reload();
 }
 
-const Data = ({col, text, row}) =>
-    <td onClick={(e) => console.log(e, col, text, row)}>
+const Data = ({col, row}) =>
+    <td onClick={(e) => console.log(e, col, row)}>
         {/*<Input />*/}
         {row[col]}
     </td>
@@ -78,7 +78,7 @@ const Row = ({row, rowIndex}) =>
     </tr>
 
 const EditRow = ({row, rowIndex}) =>
-    <tr key={"editRow"}>
+    <tr key={"edit"}>
         <td>{rowIndex}</td>
         <Input col={'firstName'} row={row}/>
         <Input col={'lastName'} row={row}/>
@@ -97,8 +97,10 @@ const Input = ({col}) =>
 
 const Body = ({rows, cols}) =>
     <tbody>
-        <EditRow row={rows[0]} rowIndex={0}/>
-        {rows.map((row, rowIndex) => <Row key={row.id} row={row} rowIndex={rowIndex}/>)}
+        {rows.map((row, rowIndex) =>
+            (rowIndex==3)? <EditRow key={'editRow'} row={rows[0]} rowIndex={0}/>
+            :<Row key={row.id} row={row} rowIndex={rowIndex}/>
+        )}
     </tbody>
 
 function editRow(e, row) {
@@ -108,7 +110,7 @@ function editRow(e, row) {
     // const td = React.Children.toArray()
     // e.target.style.background = e.target.style.background ? '' : 'RED'
     // if(td && td.localName==='input') td.hidden=false
-    console.log(td)
+    console.log('TD:',td)
     // td = <input/>
     // td.focused=true
 }
