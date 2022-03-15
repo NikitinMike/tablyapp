@@ -3,22 +3,25 @@ import './App.css'
 
 const headers = ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт']
 const footers = ['', '111', '222', 'sum', '', '', '']
+const fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country']
+
+var index = 0
 
 const Header = ({headers, cols}) =>
     <thead>
-        <tr onClick={(e) => addRow({})}>
-            {headers.slice(0, cols).map((header, index) =>
-                <th key={index}>{header ? header : index}</th>)}
-        </tr>
+    <tr onClick={(e) => addRow({})}>
+        {headers.slice(0, cols).map((header, index) =>
+            <th key={index}>{header ? header : index}</th>)}
+    </tr>
     </thead>
 
 const Footer = ({cols, footers}) =>
     <tfoot>
-        <tr onClick={(e) => addRow({})}>
-            {footers.slice(0, cols).map(
-                (text, index) => <td key={index}>{text ? text : index}</td>
-            )}
-        </tr>
+    <tr onClick={(e) => addRow({})}>
+        {footers.slice(0, cols).map(
+            (text, index) => <td key={index}>{text ? text : index}</td>
+        )}
+    </tr>
     </tfoot>
 
 const Table = ({cols, table, caption}) =>
@@ -26,7 +29,7 @@ const Table = ({cols, table, caption}) =>
         <table rules='all' frame='border'>
             <caption>{caption}</caption>
             <Header headers={table.headers} cols={cols}/>
-            <Body rows={table.rows} cols={cols}/>
+            <Body rows={table.rows} cols={cols} index={index}/>
             <Footer cols={cols} footers={table.footers}/>
         </table>
     </div>
@@ -58,8 +61,13 @@ async function addRow(data) {
     window.location.reload();
 }
 
+function select(e,col,row){
+
+}
+
 const Data = ({col, row}) =>
-    <td onClick={(e) => console.log(e, col, row)}>
+    <td onClick={(e) => {index=row.id;
+        console.log(index,e.target.parentElement, col, row);}}>
         {/*<Input />*/}
         {row[col]}
     </td>
@@ -67,12 +75,13 @@ const Data = ({col, row}) =>
 const Row = ({row, rowIndex}) =>
     <tr key={rowIndex}>
         <td onClick={(e) => addRow(row)}>{row.id}</td>
-        <Data col={'firstName'} row={row}/>
-        <Data col={'lastName'} row={row}/>
-        <Data col={'email'} row={row}/>
-        <Data col={'phone'} row={row}/>
-        <Data col={'city'} row={row}/>
-        <Data col={'country'} row={row}/>
+        {/*this.fields.forEach(field => this.row[field]='')*/}
+        <Data col={fields[0]} row={row}/>
+        <Data col={fields[1]} row={row}/>
+        <Data col={fields[2]} row={row}/>
+        <Data col={fields[3]} row={row}/>
+        <Data col={fields[4]} row={row}/>
+        <Data col={fields[5]} row={row}/>
         <td onClick={(e) => editRow(e, row.id)}>[...]</td>
         <td onClick={(e) => deleteRow(e, row.id)}>[X]</td>
     </tr>
@@ -80,27 +89,28 @@ const Row = ({row, rowIndex}) =>
 const EditRow = ({row, rowIndex}) =>
     <tr key={"edit"}>
         <td>{rowIndex}</td>
-        <Input col={'firstName'} row={row}/>
-        <Input col={'lastName'} row={row}/>
-        <Input col={'email'} row={row}/>
-        <Input col={'phone'} row={row}/>
-        <Input col={'city'} row={row}/>
-        <Input col={'country'} row={row}/>
+        <Input col={fields[0]} row={row}/>
+        <Input col={fields[1]} row={row}/>
+        <Input col={fields[2]} row={row}/>
+        <Input col={fields[3]} row={row}/>
+        <Input col={fields[4]} row={row}/>
+        <Input col={fields[5]} row={row}/>
     </tr>
 
-const Input = ({col}) =>
+const Input = ({col, row}) =>
     <td>
+        {/*<input key={col} value={row[col]}/>*/}
         <input key={col}/>
     </td>
 // const Input = () => <input hidden={true}/>
 // onKeyPress={(e)=>edit(e)}
 
-const Body = ({rows, cols}) =>
+const Body = ({rows, cols,index}) =>
     <tbody>
-        {rows.map((row, rowIndex) =>
-            (rowIndex==3)? <EditRow key={'editRow'} row={rows[0]} rowIndex={0}/>
-            :<Row key={row.id} row={row} rowIndex={rowIndex}/>
-        )}
+    {rows.map((row, rowIndex) =>
+        (row.id == index) ? <EditRow key={'editRow'} row={rows[0]} rowIndex={0}/>
+            : <Row key={row.id} row={row} rowIndex={rowIndex}/>
+    )}
     </tbody>
 
 function editRow(e, row) {
@@ -110,7 +120,7 @@ function editRow(e, row) {
     // const td = React.Children.toArray()
     // e.target.style.background = e.target.style.background ? '' : 'RED'
     // if(td && td.localName==='input') td.hidden=false
-    console.log('TD:',td)
+    console.log('TD:', td)
     // td = <input/>
     // td.focused=true
 }
