@@ -2,9 +2,6 @@ import React from 'react'
 import Fields from './Fields'
 import './App.css'
 
-function select(e, col, row) {
-}
-
 async function addRow(data) {
     await fetch('http://localhost:3000/contacts/',
         {
@@ -32,20 +29,22 @@ function deleteRow(e, row) {
     window.location.reload();
 }
 
-const Data = ({col, row}) =>
-    <td onClick={(e) => {
-        // index = row.id;
-        // console.log(e.target.parentElement);
-        console.log(row.id, col, row);
-    }}>
-        {/*<Input />*/}
-        {row[col]}
-    </td>
-
 class Row extends React.Component {
 
     row = null
     index = 0
+
+    data(col, row) {
+        return (
+            <td onClick={(e) => {
+                // this.select(e,col,row)
+                console.log(row.id, col, row);
+            }}>
+                {/*<Input />*/}
+                {row[col]}
+            </td>
+        )
+    }
 
     constructor(props) {
         super(props);
@@ -54,19 +53,27 @@ class Row extends React.Component {
         // console.log(this.state)
     }
 
+    select(e,id) {
+        // console.log("ROW",e.target.parentElement)
+        this.index = id
+        // this.index = e.target.parentElement.childNodes[0];
+        this.setState({index: this.index})
+        console.log(this.index)
+    }
+
     render() {
         const row = this.state.row
         const id = row.id;
         return (
-            <tr key={this.state.index}>
+            <tr key={this.state.index} onClick={(e) => this.props.select(e,id)}>
                 <td onClick={(e) => addRow(row)}>{id}</td>
-                {/*{fields.forEach(field => {<Data col={field} row={row}/>} )}*/}
-                <Data col={Fields[0]} row={row}/>
-                <Data col={Fields[1]} row={row}/>
-                <Data col={Fields[2]} row={row}/>
-                <Data col={Fields[3]} row={row}/>
-                <Data col={Fields[4]} row={row}/>
-                <Data col={Fields[5]} row={row}/>
+                {/*{Fields.forEach(field => {this.data(field,row)} )}*/}
+                {this.data(Fields[0],row)}
+                {this.data(Fields[1],row)}
+                {this.data(Fields[2],row)}
+                {this.data(Fields[3],row)}
+                {this.data(Fields[4],row)}
+                {this.data(Fields[5],row)}
                 {/*<td onClick={(e) => editRow(e, row.id)}>[...]</td>*/}
                 <td onClick={(e) => deleteRow(e, id)}>[X]</td>
             </tr>

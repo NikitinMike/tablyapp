@@ -26,14 +26,24 @@ class Body extends React.Component {
         this.rows = props.rows
         this.state = {rows: this.rows};
         // console.log(this.state)
+        this.select = this.select.bind(this);
     }
 
+    select(e,id) {
+        // console.log("ROW",e.target.parentElement)
+        console.log(e.target)
+        this.index = id
+        // this.index = e.target.parentElement.childNodes[0];
+        this.setState({index: this.index})
+        console.log(this.index)
+    }
+    
     render() {
         return (
             <tbody>
             {this.rows.map((row, rowIndex) => (row.id === this.index)
                 ? <EditRow key={'editRow'} row={this.rows[0]} rowIndex={0}/>
-                : <Row key={row.id} row={row} rowIndex={rowIndex}/>
+                : <Row key={row.id} row={row} rowIndex={rowIndex} select={this.select}/>
             )}
             </tbody>
         )
