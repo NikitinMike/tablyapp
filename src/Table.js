@@ -2,24 +2,6 @@ import React from 'react'
 import Body from './Body'
 import './App.css'
 
-async function addRow(data) {
-    await fetch('http://localhost:3000/contacts/',
-        {
-            headers: {
-                // 'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(res => {
-            console.log(res)
-        })
-        .catch(e => console.log(e))
-    window.location.reload();
-}
-
 const Header = ({headers, cols}) =>
     <thead>
     <tr onClick={(e) => addRow({})}>
@@ -27,6 +9,10 @@ const Header = ({headers, cols}) =>
             <th key={index}>{header ? header : index}</th>)}
     </tr>
     </thead>
+
+function addRow(param) {
+    
+}
 
 const Footer = ({cols, footers}) =>
     <tfoot>

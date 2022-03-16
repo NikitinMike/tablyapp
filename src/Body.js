@@ -14,8 +14,22 @@ function select(e, col, row) {
 
 }
 
-function addRow(e, col, row) {
-
+async function addRow(data) {
+    await fetch('http://localhost:3000/contacts/',
+        {
+            headers: {
+                // 'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(res => {
+            console.log(res)
+        })
+        .catch(e => console.log(e))
+    window.location.reload();
 }
 
 const Data = ({col, row}) =>
