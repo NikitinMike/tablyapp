@@ -11,7 +11,7 @@ const Header = ({headers, cols}) =>
     </thead>
 
 function addRow(param) {
-    
+
 }
 
 const Footer = ({cols, footers}) =>
