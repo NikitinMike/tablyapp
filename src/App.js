@@ -4,6 +4,8 @@ import './App.css'
 
 class App extends React.Component {
 
+    rows = []
+
     constructor(props) {
         super(props);
         this.state = {
@@ -13,23 +15,24 @@ class App extends React.Component {
         };
     }
 
-    render() {
-        const rows = this.state.rows
-        return (
+    render(props) {
+        this.rows = this.state.rows
+        return this.state.isLoaded ? (
             <div className='App'>
                 <form>
-                    <Table table={rows} cols="7" caption="C O N T A C T S"/>
+                    <Table table={this.rows} cols="7" caption="C O N T A C T S"/>
                 </form>
             </div>
-        )
+        ):null
     }
 
-    componentDidMount() {
-        this.getData().then(r => console.log(r) );
+    componentDidMount(props) {
+        this.getData() // .then(r => console.log('app',r))
+        // console.log(this.state.rows)
     }
 
-    async getData() {
-        await fetch('http://localhost:3000/contacts')
+    getData() {
+        fetch('http://localhost:3000/contacts')
             .then(response => response.json())
             .then(data => this.setState({rows: data, isLoaded: true}))
             .catch(e => console.log(e))

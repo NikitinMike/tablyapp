@@ -12,9 +12,8 @@ const Header = ({headers, cols}) =>
 const Footer = ({cols, footers}) =>
     <tfoot>
     <tr onClick={(e) => addRow({})}>
-        {footers.slice(0, cols).map(
-            (text, index) => <td key={index}>{text ? text : index}</td>
-        )}
+        {footers.slice(0, cols).map((text, index) =>
+            <td key={index}>{text ? text : index}</td>)}
     </tr>
     </tfoot>
 
@@ -45,13 +44,15 @@ async function addRow(data) {
     window.location.reload();
 }
 
-function select(e,col,row){
+function select(e, col, row) {
 
 }
 
 const Data = ({col, row}) =>
-    <td onClick={(e) => {index=row.id;
-        console.log(index,e.target.parentElement, col, row);}}>
+    <td onClick={(e) => {
+        index = row.id;
+        console.log(index, e.target.parentElement, col, row);
+    }}>
         {/*<Input />*/}
         {row[col]}
     </td>
@@ -89,7 +90,7 @@ const Input = ({col, row}) =>
 // const Input = () => <input hidden={true}/>
 // onKeyPress={(e)=>edit(e)}
 
-const Body = ({rows, cols,index}) =>
+const Body = ({rows, cols, index}) =>
     <tbody>
     {rows.map((row, rowIndex) =>
         (row.id == index) ? <EditRow key={'editRow'} row={rows[0]} rowIndex={0}/>
@@ -135,16 +136,11 @@ class Table extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(props.table)
         this.table = props.table
-        this.state = {
-            error: null,
-            isLoaded: false,
-            table: this.table
-        };
+        this.state = {table: this.table};
+        // console.log(this.state)
     }
 
-    // const Table = ({cols, table, caption}) =>
     render(props) {
         return (
             <div>
