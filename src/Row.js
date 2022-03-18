@@ -38,7 +38,8 @@ class Row extends React.Component {
         return (
             <td onClick={(e) => {
                 // this.select(e,col,row)
-                console.log(row.id, col, row);
+                // console.log(row.id, col);
+                // console.log(row);
             }}>
                 {/*<Input />*/}
                 {row[col]}

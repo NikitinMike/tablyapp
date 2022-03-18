@@ -24,29 +24,33 @@ class Body extends React.Component {
     constructor(props) {
         super(props);
         this.rows = props.rows
-        this.state = {rows: this.rows,index:this.index};
+        this.state = {rows: this.rows, index: this.index};
         // console.log(this.state)
         this.select = this.select.bind(this);
     }
 
     select(e, id) {
         // console.log("ROW",e.target.parentElement)
-        console.log(e.target)
+        // console.log(e.target)
         this.index = id
         // this.index = e.target.parentElement.childNodes[0];
         this.setState({index: this.index})
-        console.log(this.index)
+        // console.log(this.index)
+    }
+
+    getRows() {
+        // console.log(this.rows)
+        // console.log(this.state.index)
+        return (
+            this.rows.map((row, index) => (row.id === this.state.index)
+                ? <EditRow key={row.id} row={row} index={index}/>
+                : <Row key={index} row={row} index={index} select={this.select}/>
+            )
+        )
     }
 
     render() {
-        return (
-            <tbody>
-            {this.rows.map((row, index) => (row.id === this.state.index)
-                ? <EditRow key={'editRow'} row={row} index={index}/>
-                : <Row key={row.id} row={row} index={index} select={this.select}/>
-            )}
-            </tbody>
-        )
+        return (<tbody>{this.getRows()}</tbody>)
     }
 }
 

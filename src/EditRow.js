@@ -37,13 +37,13 @@ class EditRow extends React.Component {
         this.row = this.props.row
         this.index = this.row.id
         this.state = {row: this.row, index: this.index};
-        console.log(this.state)
-        // console.log(this.row)
+        // console.log(this.state)
     }
 
     render() {
         const row = this.state.row
         const id = row.id;
+        // console.log(row)
         return (
             <tr key={"edit"}>
                 <td>{this.state.index}</td>
