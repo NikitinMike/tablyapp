@@ -35,7 +35,8 @@ class Body extends React.Component {
         this.index = id
         // this.index = e.target.parentElement.childNodes[0];
         this.setState({index: this.index})
-        // console.log(this.index)
+        console.log(this.state.index)
+        // write this row back
     }
 
     getRow(row,index) {
