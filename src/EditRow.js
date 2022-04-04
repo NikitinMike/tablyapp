@@ -11,15 +11,16 @@ class EditRow extends React.Component {
     index = 0
 
     editData(e, row, col) {
-        // console.log(col, row)
         const td = e.target // .lastChild
         // const td = this.props.children
         // const td = React.Children.toArray()
         // e.target.style.background = e.target.style.background ? '' : 'RED'
         // if(td && td.localName==='input') td.hidden=false
+        if (row[col] === td.value) return
+        // console.log(col, row)
         // console.log('TD:', td.value)
         row[col] = td.value
-        this.setState({row: row})
+        this.setState({row: row,edit:true})
         // td = <input/>
         // td.focused=true
     }
@@ -40,7 +41,7 @@ class EditRow extends React.Component {
         super(props);
         this.row = this.props.row
         this.index = this.row.id
-        this.state = {row: this.row, index: this.index};
+        this.state = {row: this.row, index: this.index, edit:false};
         // console.log(this.state)
     }
 
