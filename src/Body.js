@@ -38,19 +38,23 @@ class Body extends React.Component {
         // console.log(this.index)
     }
 
-    getRows() {
-        // console.log(this.rows)
-        // console.log(this.state.index)
-        return (
-            this.rows.map((row, index) => (row.id === this.state.index)
+    getRow(row,index) {
+        // console.log(row)
+        // console.log(index)
+        return ((row.id === this.state.index)
                 ? <EditRow key={row.id} row={row} index={index}/>
                 : <Row key={index} row={row} index={index} select={this.select}/>
-            )
         )
     }
 
+    mapRows() {
+        // console.log(this.rows)
+        // console.log(this.state.index)
+        return (this.rows.map((row, index) => this.getRow(row,index)))
+    }
+
     render() {
-        return (<tbody>{this.getRows()}</tbody>)
+        return (<tbody>{this.mapRows()}</tbody>)
     }
 }
 
