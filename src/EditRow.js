@@ -37,8 +37,18 @@ class EditRow extends React.Component {
     )
   }
 
+  putRow(id) {
+    fetch('http://localhost:3000/contacts/' + id, {method: 'GET'})
+      .then(response => response.json())
+      .then(async data => {
+        console.log(data)
+      })
+      .catch(e => console.log(e))
+  }
+
   componentWillUnmount() {
     console.log(this.state)
+    this.putRow(this.state.row.id)
   }
 
   constructor(props) {

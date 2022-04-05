@@ -3,18 +3,18 @@ import './App.css'
 import Row from './Row'
 import EditRow from './EditRow'
 
-function consoleLog(id, e) {
-    console.log(e.target)
-}
+// function consoleLog(id, e) {
+//     console.log(e.target)
+// }
 
-async function getRow(id) {
-    await fetch('http://localhost:3000/contacts/' + id, {method: 'GET'})
-        .then(response => response.json())
-        .then(async data => {
-            console.log(data)
-        })
-        .catch(e => console.log(e))
-}
+// async function getRow(id) {
+//     await fetch('http://localhost:3000/contacts/' + id, {method: 'GET'})
+//         .then(response => response.json())
+//         .then(async data => {
+//             console.log(data)
+//         })
+//         .catch(e => console.log(e))
+// }
 
 class Body extends React.Component {
 
@@ -35,7 +35,7 @@ class Body extends React.Component {
         this.index = id
         // this.index = e.target.parentElement.childNodes[0];
         this.setState({index: this.index})
-        console.log(this.state.index)
+        // console.log(this.state.index)
         // write this row back
     }
 
