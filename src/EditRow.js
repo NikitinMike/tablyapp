@@ -37,7 +37,7 @@ class EditRow extends React.Component {
     )
   }
 
-  putRow(id) {
+  getRow(id) {
     fetch('http://localhost:3000/contacts/' + id, {method: 'GET'})
       .then(response => response.json())
       .then(async data => {
@@ -46,8 +46,26 @@ class EditRow extends React.Component {
       .catch(e => console.log(e))
   }
 
+  putRow(id) {
+    const row = this.state.row // s[this.state.index]
+    id = row.id
+    // console.log("SUBMIT DATA:", row)
+    if (this.state.edit)
+      fetch('http://localhost:3000/contacts/' + id, {
+        body: JSON.stringify(row),
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      })
+        // .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(e => console.log(e))
+  }
+
   componentWillUnmount() {
-    console.log(this.state)
+    // console.log(this.state)
     this.putRow(this.state.row.id)
   }
 
