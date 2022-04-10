@@ -16,7 +16,7 @@ class App extends React.Component {
     };
   }
 
-  render(props) {
+  render() {
     this.rows = this.state.rows
     return this.state.isLoaded ? (
       <div className='App'>
@@ -27,7 +27,7 @@ class App extends React.Component {
     ) : null
   }
 
-  componentDidMount(props) {
+  componentDidMount() {
     this.getData()
   }
 

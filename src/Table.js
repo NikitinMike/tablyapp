@@ -36,7 +36,7 @@ class Table extends React.Component {
     this.state = {table: this.table};
   }
 
-  render(props) {
+  render() {
     return (
       <div>
         <table rules='all' frame='border'>
