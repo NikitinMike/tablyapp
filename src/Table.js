@@ -4,26 +4,39 @@ import './App.css'
 import {Headers} from './Fields'
 import {Footers} from './Fields'
 
-const Header = ({headers, cols}) =>
-  <thead>
-  <tr onClick={(e) => pageUp({e})}>
-    {headers.slice(0, cols).map((header, index) =>
-      <th key={index}>{header ? header : index}</th>)}
-  </tr>
-  </thead>
-
-function pageUp(param) {console.log("UP",param)}
-function pageDown(param) {console.log("DOWN",param)}
-
-const Footer = ({cols, footers}) =>
-  <tfoot>
-  <tr onClick={(e) => pageDown({e})}>
-    {footers.slice(0, cols).map((text, index) =>
-      <td key={index}>{text ? text : index}</td>)}
-  </tr>
-  </tfoot>
-
 class Table extends React.Component {
+
+  header(cols) {
+    return (
+      <thead>
+      <tr onClick={(e) => this.pageUp({e})}>
+        {Headers.slice(0, cols).map((header, index) =>
+          <th key={index}>{header ? header : index}</th>)}
+      </tr>
+      </thead>
+    )
+  }
+
+  pageUp(param) {
+    console.log("UP", param)
+    this.getData(0)
+  }
+
+  pageDown(param) {
+    console.log("DOWN", param)
+    this.getData(2)
+  }
+
+  footer(cols) {
+    return (
+      <tfoot>
+      <tr onClick={(e) => this.pageDown({e})}>
+        {Footers.slice(0, cols).map((text, index) =>
+          <td key={index}>{text ? text : index}</td>)}
+      </tr>
+      </tfoot>
+    )
+  }
 
   caption = ''
   cols = 9
@@ -34,6 +47,7 @@ class Table extends React.Component {
     this.table = props.table
     this.caption = props.caption
     this.state = {table: this.table};
+    this.getData = this.props.getData
   }
 
   render() {
@@ -41,9 +55,9 @@ class Table extends React.Component {
       <div>
         <table rules='all' frame='border'>
           <caption>{this.caption}</caption>
-          <Header headers={Headers} cols={this.cols} />
+          {this.header(this.cols)}
           <Body rows={this.state.table} cols={this.cols} index={this.index}/>
-          <Footer cols={this.cols} footers={Footers}/>
+          {this.footer(this.cols)}
         </table>
       </div>
     )
