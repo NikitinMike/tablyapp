@@ -28,11 +28,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getData()
+    this.getData(3)
   }
 
-  getData() {
-    fetch('http://localhost:3000/contacts')
+  getData(page) {
+    fetch('http://localhost:3000/contacts/page'+page)
       .then(response => response.json())
       .then(data => this.setState({rows: data, isLoaded: true}))
       .catch(e => console.log(e))

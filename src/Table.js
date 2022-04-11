@@ -6,18 +6,18 @@ import {Footers} from './Fields'
 
 const Header = ({headers, cols}) =>
   <thead>
-  <tr onClick={(e) => addRow({e})}>
+  <tr onClick={(e) => pageUp({e})}>
     {headers.slice(0, cols).map((header, index) =>
       <th key={index}>{header ? header : index}</th>)}
   </tr>
   </thead>
 
-function addRow(param) {
-}
+function pageUp(param) {console.log("UP",param)}
+function pageDown(param) {console.log("DOWN",param)}
 
 const Footer = ({cols, footers}) =>
   <tfoot>
-  <tr onClick={(e) => addRow({e})}>
+  <tr onClick={(e) => pageDown({e})}>
     {footers.slice(0, cols).map((text, index) =>
       <td key={index}>{text ? text : index}</td>)}
   </tr>
@@ -41,7 +41,7 @@ class Table extends React.Component {
       <div>
         <table rules='all' frame='border'>
           <caption>{this.caption}</caption>
-          <Header headers={Headers} cols={this.cols}/>
+          <Header headers={Headers} cols={this.cols} />
           <Body rows={this.state.table} cols={this.cols} index={this.index}/>
           <Footer cols={this.cols} footers={Footers}/>
         </table>
