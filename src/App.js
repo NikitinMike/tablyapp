@@ -43,7 +43,7 @@ class App extends React.Component {
       .then(response => response.json())
       .then(data => this.rows= data)
       .catch(e => console.log(e))
-    console.log(this.rows)
+    // console.log(this.rows)
     this.setState({rows: this.rows, isLoaded: true, page: this.page})
     console.log(this.state)
   }

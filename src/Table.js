@@ -18,12 +18,12 @@ class Table extends React.Component {
   }
 
   pageUp(param) {
-    console.log("UP", param)
+    // console.log("UP", param)
     this.getData(-1)
   }
 
   pageDown(param) {
-    console.log("DOWN", param)
+    // console.log("DOWN", param)
     this.getData(+1)
   }
 
