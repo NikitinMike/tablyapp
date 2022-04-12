@@ -19,12 +19,12 @@ class Table extends React.Component {
 
   pageUp(param) {
     console.log("UP", param)
-    this.getData(0)
+    this.getData(-1)
   }
 
   pageDown(param) {
     console.log("DOWN", param)
-    this.getData(2)
+    this.getData(+1)
   }
 
   footer(cols) {

@@ -1,6 +1,7 @@
 import React from 'react'
 import Table from './Table'
 import './App.css'
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
@@ -30,18 +31,20 @@ class App extends React.Component {
     ) : null
   }
 
-  componentDidMount() {
-    this.getData(this.page).then(r => console.log(r))
+  async componentDidMount() {
+    await this.getData(0).then(r => console.log(r))
   }
 
-  async getData(page) {
-    console.log(page)
-    this.page = page
-    this.setState({page: this.page,isLoaded: false})
-    await fetch('http://localhost:3000/contacts/page' + this.state.page)
+  async getData(next) {
+    this.page += (this.rows.length>0)? next:-1
+    if (this.page < 0) this.page = 0;
+    this.setState({isLoaded: false})
+    await fetch('http://localhost:3000/contacts/page' + this.page)
       .then(response => response.json())
-      .then(data => this.setState({rows: data, isLoaded: true}))
+      .then(data => this.rows= data)
       .catch(e => console.log(e))
+    console.log(this.rows)
+    this.setState({rows: this.rows, isLoaded: true, page: this.page})
     console.log(this.state)
   }
 }
