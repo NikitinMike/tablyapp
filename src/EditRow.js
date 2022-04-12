@@ -19,7 +19,7 @@ class EditRow extends React.Component {
     row = this.state.row
     return (
       <td key={col+row.id}>
-        <input value={row[col]} color={'RED'}
+        <input value={row[col]} color={'RED'} size={12}
                onChange={(e) => this.editData(e, row, col)}/>
       </td>
     )
