@@ -13,6 +13,34 @@ class Body extends React.Component {
     this.rows = props.rows
     this.state = {rows: this.rows, index: this.index};
     this.select = this.select.bind(this);
+    this.deleteRow = this.deleteRow.bind(this);
+    this.addRow = this.addRow.bind(this);
+  }
+
+  async addRow(row) {
+    await fetch('http://localhost:3000/contacts/', {
+      headers: {
+        // 'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(row)
+    })
+        .then(response => response.json())
+        .then(res => {
+          console.log(res)
+          this.rows.push(res)
+          this.setState({rows: this.rows})
+        })
+        .catch(e => console.log(e))
+  }
+
+  deleteRow(e, row) {
+    console.log(row)
+    fetch('http://localhost:3000/contacts/' + row, {method: 'DELETE'})
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(e => console.log(e))
   }
 
   select(e, id) {
@@ -23,7 +51,8 @@ class Body extends React.Component {
   getRow(row, index) {
     return ((row.id === this.state.index)
         ? <EditRow key={row.id} row={row} index={index}/>
-        : <Row key={index} row={row} index={index} select={this.select}/>
+        : <Row key={index} row={row} index={index}
+               select={this.select} deleteRow={this.deleteRow} addRow={this.addRow}/>
     )
   }
 
