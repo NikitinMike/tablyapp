@@ -45,7 +45,7 @@ class EditRow extends React.Component {
           'Content-Type': 'application/json'
         },
       })
-        // .then(data => console.log(data))
+        .then(data => console.log(data))
         .catch(e => console.log(e))
   }
 

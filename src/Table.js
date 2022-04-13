@@ -9,7 +9,7 @@ class Table extends React.Component {
   header(cols) {
     return (
       <thead>
-      <tr onClick={(e) => this.pageUp({e})}>
+      <tr onClick={() => this.page(-1)}>
         {Headers.slice(0, cols).map((header, index) =>
           <th key={index}>{header ? header : index}</th>)}
       </tr>
@@ -17,20 +17,14 @@ class Table extends React.Component {
     )
   }
 
-  pageUp(param) {
-    // console.log("UP", param)
-    this.getData(-1)
-  }
-
-  pageDown(param) {
-    // console.log("DOWN", param)
-    this.getData(+1)
+  page(p) {
+    this.getData(p)
   }
 
   footer(cols) {
     return (
       <tfoot>
-      <tr onClick={(e) => this.pageDown({e})}>
+      <tr onClick={() => this.page(1)}>
         {Footers.slice(0, cols).map((text, index) =>
           <td key={index}>{text ? text : index}</td>)}
       </tr>
@@ -56,7 +50,7 @@ class Table extends React.Component {
         <table rules='all' frame='border'>
           <caption>{this.caption}</caption>
           {this.header(this.cols)}
-          <Body rows={this.state.table} cols={this.cols} index={this.index}/>
+          <Body rows={this.state.table} cols={this.cols}/>
           {this.footer(this.cols)}
         </table>
       </div>

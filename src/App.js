@@ -45,7 +45,7 @@ class App extends React.Component {
       .catch(e => console.log(e))
     // console.log(this.rows)
     this.setState({rows: this.rows, isLoaded: true, page: this.page})
-    console.log(this.state)
+    // console.log(this.state)
   }
 }
 

@@ -17,8 +17,8 @@ class Body extends React.Component {
     this.addRow = this.addRow.bind(this);
   }
 
-  async addRow(row) {
-    await fetch('http://localhost:3000/contacts/', {
+  addRow(row) {
+    fetch('http://localhost:3000/contacts/', {
       headers: {
         // 'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -26,25 +26,31 @@ class Body extends React.Component {
       method: 'POST',
       body: JSON.stringify(row)
     })
-        .then(response => response.json())
-        .then(res => {
-          console.log(res)
-          this.rows.push(res)
-          this.setState({rows: this.rows})
-        })
-        .catch(e => console.log(e))
+      .then(response => response.json())
+      .then(res => {
+        console.log(res)
+        this.rows.push(res)
+        this.setState({rows: this.rows})
+      })
+      .catch(e => console.log(e))
   }
 
-  deleteRow(e, row) {
-    console.log(row)
-    fetch('http://localhost:3000/contacts/' + row, {method: 'DELETE'})
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(e => console.log(e))
+  deleteRow(index) {
+    // console.log(index)
+    const row = this.rows[index]
+    // console.log(row)
+    fetch('http://localhost:3000/contacts/' + row.id, {method: 'DELETE'})
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        this.rows.splice(index,1)
+        this.setState({rows:this.rows})
+      })
+      .catch(e => console.log(e))
   }
 
-  select(e, id) {
-    this.index = id
+  select(index) {
+    this.index = index
     this.setState({index: this.index})
   }
 
