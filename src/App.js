@@ -14,7 +14,7 @@ class App extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      rows: [],
+      rows: this.rows,
       page: this.page
     };
     this.getData = this.getData.bind(this);
@@ -22,13 +22,13 @@ class App extends React.Component {
 
   render() {
     this.rows = this.state.rows
-    return this.state.isLoaded ? (
+    return this.state.isLoaded && (
       <div className='App'>
         <form>
           <Table table={this.rows} cols="7" caption="C O N T A C T S" getData={this.getData}/>
         </form>
       </div>
-    ) : null
+    )
   }
 
   async componentDidMount() {
