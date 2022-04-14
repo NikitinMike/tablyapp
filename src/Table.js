@@ -9,17 +9,50 @@ class Table extends React.Component {
   caption = ''
   cols = 9
   table = []
+  page = 1
+  order = null
+  direction = false
 
   constructor(props) {
     super(props);
-    this.table = props.table
     this.caption = props.caption
-    this.state = {table: this.table};
-    this.getData = this.props.getData
+    this.state = {
+      error: null,
+      isLoaded: false,
+      table: this.table,
+      page: this.page,
+      order: this.order,
+      dir: this.direction
+    };
+    this.getData = this.getData.bind(this);
+  }
+
+  async componentDidMount() {
+    await this.getData(0).then(r => console.log(r))
+  }
+
+  async getData(next, order) {
+    if (order != null)
+      if (order !== this.order) this.order = order
+      else this.direction = !this.direction
+    const dir = (order == null) ? '' : ('?dir=' + (this.direction ? '1' : '-1'))
+    // console.log(order, this.direction, dir)
+    if (next > 1) this.page = next
+    else this.page += (this.table.length > 0) ? next : -1
+    if (this.page < 0) this.page = 0;
+    this.setState({isLoaded: false})
+    // if(this.direction) this.table = this.table.reverse()
+    await fetch((this.order ? 'http://localhost:3000/contacts/' + this.order
+      : 'http://localhost:3000/contacts') + '/page' + this.page + dir)
+      .then(response => response.json())
+      .then(data => this.table = data)
+      .catch(e => console.log(e))
+    this.setState({table: this.table, isLoaded: true, page: this.page, order: this.order})
   }
 
   render() {
-    return (
+    this.table = this.state.table
+    return this.state.isLoaded && (
       <div>
         <table rules='all' frame='border'>
           <caption>{this.caption}</caption>
@@ -39,7 +72,7 @@ class Table extends React.Component {
         {Headers.slice(0, cols).map((header, index) =>
           <th key={index} id={Fields[index - 1]}
               onClick={(e) => {
-                if (e.target.id) this.getData(0, e.target.id)
+                if (e.target.id) this.getData(0, e.target.id).then(r => console.log(r))
               }}>
             {header ? header : index}
           </th>)}
