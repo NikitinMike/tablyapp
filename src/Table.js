@@ -11,9 +11,9 @@ class Table extends React.Component {
             <thead>
             <tr onClick={() => this.page(-1)}>
                 {Headers.slice(0, cols).map((header, index) =>
-                    <th key={index} id={Fields[index-1]}
-                        onClick = {(e) => {
-                            console.log("SORT ORDER BY", e.target.id)
+                    <th key={index} id={Fields[index - 1]}
+                        onClick={(e) => {
+                            if (e.target.id) this.getData(0, e.target.id)
                         }}>
                         {header ? header : index}
                     </th>)}

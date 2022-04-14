@@ -8,6 +8,7 @@ class App extends React.Component {
 
     rows = []
     page = 1
+    order = null
 
     constructor(props) {
         super(props);
@@ -15,7 +16,8 @@ class App extends React.Component {
             error: null,
             isLoaded: false,
             rows: this.rows,
-            page: this.page
+            page: this.page,
+            order: this.order
         };
         this.getData = this.getData.bind(this);
     }
@@ -35,18 +37,18 @@ class App extends React.Component {
         await this.getData(0).then(r => console.log(r))
     }
 
-    async getData(next) {
+    async getData(next, order) {
+        if (order != null) this.order = order
         if (next > 1) this.page = next
         else this.page += (this.rows.length > 0) ? next : -1
         if (this.page < 0) this.page = 0;
         this.setState({isLoaded: false})
-        await fetch('http://localhost:3000/contacts/page' + this.page)
+        await fetch((this.order ? 'http://localhost:3000/contacts/' + this.order
+            : 'http://localhost:3000/contacts') + '/page' + this.page)
             .then(response => response.json())
             .then(data => this.rows = data)
             .catch(e => console.log(e))
-        // console.log(this.rows)
-        this.setState({rows: this.rows, isLoaded: true, page: this.page})
-        // console.log(this.state)
+        this.setState({rows: this.rows, isLoaded: true, page: this.page, order: this.order})
     }
 }
 
