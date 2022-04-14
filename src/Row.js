@@ -7,7 +7,7 @@ class Row extends React.Component {
   row = null
   index = 0
 
-  selectCol(col,row) {
+  selectCol(col, row) {
     // console.log("ROW",e.target.parentElement)
     // this.index = e.target.parentElement.childNodes[0];
   }
@@ -38,7 +38,6 @@ class Row extends React.Component {
     })
       .then(response => response.json())
       .then(res => {
-        // console.log(res)
         // this.rows.push(res)
         // this.setState({rows: this.rows})
         this.props.getPage(0)
@@ -47,16 +46,13 @@ class Row extends React.Component {
   }
 
   async deleteRow(index) {
-    // console.log(index)
     // const row = this.rows[index]
-    // console.log(row)
     await fetch('http://localhost:3000/contacts/' + this.row.id, {method: 'DELETE'})
       .then(response => response.json())
       .then(data => {
         // this.rows.splice(index, 1)
         // this.setState({rows: this.rows})
         this.props.getPage(0)
-        // console.log(this.state.rows)
       })
       .catch(e => console.log(e))
   }
