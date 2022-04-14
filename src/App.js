@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
 
-  rows = []
+  table = []
   page = 1
   order = null
   direction = false
@@ -16,7 +16,7 @@ class App extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      rows: this.rows,
+      table: this.table,
       page: this.page,
       order: this.order,
       dir: this.direction
@@ -25,11 +25,11 @@ class App extends React.Component {
   }
 
   render() {
-    this.rows = this.state.rows
+    this.table = this.state.table
     return this.state.isLoaded && (
       <div className='App'>
         <form>
-          <Table table={this.rows} cols="7" caption="C O N T A C T S" getData={this.getData}/>
+          <Table table={this.table} cols="7" caption="C O N T A C T S" getData={this.getData}/>
         </form>
       </div>
     )
@@ -46,16 +46,16 @@ class App extends React.Component {
     const dir = (order == null) ? '' : ('?dir=' + (this.direction ? '1' : '-1'))
     // console.log(order, this.direction, dir)
     if (next > 1) this.page = next
-    else this.page += (this.rows.length > 0) ? next : -1
+    else this.page += (this.table.length > 0) ? next : -1
     if (this.page < 0) this.page = 0;
     this.setState({isLoaded: false})
-    // if(this.direction) this.rows = this.rows.reverse()
+    // if(this.direction) this.table = this.table.reverse()
     await fetch((this.order ? 'http://localhost:3000/contacts/' + this.order
       : 'http://localhost:3000/contacts') + '/page' + this.page + dir)
       .then(response => response.json())
-      .then(data => this.rows = data)
+      .then(data => this.table = data)
       .catch(e => console.log(e))
-    this.setState({rows: this.rows, isLoaded: true, page: this.page, order: this.order})
+    this.setState({table: this.table, isLoaded: true, page: this.page, order: this.order})
   }
 }
 
