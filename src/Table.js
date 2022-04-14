@@ -10,6 +10,7 @@ class Table extends React.Component {
         return (
             <thead>
             <tr onClick={() => this.getData(-1)}>
+            {/*<tr>*/}
                 {Headers.slice(0, cols).map((header, index) =>
                     <th key={index} id={Fields[index - 1]}
                         onClick={(e) => {
