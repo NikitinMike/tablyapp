@@ -27,14 +27,48 @@ class Row extends React.Component {
     this.state = {row: this.row, index: this.index};
   }
 
+  addRow(row) {
+    fetch('http://localhost:3000/contacts/', {
+      headers: {
+        // 'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(row)
+    })
+      .then(response => response.json())
+      .then(res => {
+        // console.log(res)
+        // this.rows.push(res)
+        // this.setState({rows: this.rows})
+        this.props.getPage(0)
+      })
+      .catch(e => console.log(e))
+  }
+
+  async deleteRow(index) {
+    // console.log(index)
+    // const row = this.rows[index]
+    // console.log(row)
+    await fetch('http://localhost:3000/contacts/' + this.row.id, {method: 'DELETE'})
+      .then(response => response.json())
+      .then(data => {
+        // this.rows.splice(index, 1)
+        // this.setState({rows: this.rows})
+        this.props.getPage(0)
+        // console.log(this.state.rows)
+      })
+      .catch(e => console.log(e))
+  }
+
   render() {
     const row = this.state.row
     const id = row.id;
     return (
       <tr key={this.state.index} onClick={() => this.props.select(id)}>
-        <td onClick={() => this.props.addRow({...row})}>{id}</td>
+        <td onClick={() => this.addRow({...row})}>{id}</td>
         {Fields.map(field => this.data(field, row))}
-        <td onClick={() => this.props.deleteRow(this.index)}>[X]</td>
+        <td onClick={() => this.deleteRow(this.index)}>[X]</td>
       </tr>
     )
   }

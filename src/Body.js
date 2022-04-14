@@ -13,42 +13,8 @@ class Body extends React.Component {
     this.rows = props.rows
     this.state = {rows: this.rows, index: this.index};
     this.select = this.select.bind(this);
-    this.deleteRow = this.deleteRow.bind(this);
-    this.addRow = this.addRow.bind(this);
-  }
-
-  addRow(row) {
-    fetch('http://localhost:3000/contacts/', {
-      headers: {
-        // 'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify(row)
-    })
-      .then(response => response.json())
-      .then(res => {
-        // console.log(res)
-        this.rows.push(res)
-        this.setState({rows: this.rows})
-        this.props.getPage(0)
-      })
-      .catch(e => console.log(e))
-  }
-
-  async deleteRow(index) {
-    // console.log(index)
-    const row = this.rows[index]
-    // console.log(row)
-    await fetch('http://localhost:3000/contacts/' + row.id, {method: 'DELETE'})
-        .then(response => response.json())
-        .then(data => {
-          this.rows.splice(index, 1)
-          this.setState({rows: this.rows})
-          this.props.getPage(0)
-          // console.log(this.state.rows)
-        })
-        .catch(e => console.log(e))
+    // this.deleteRow = this.deleteRow.bind(this);
+    // this.addRow = this.addRow.bind(this);
   }
 
   select(index) {
@@ -60,7 +26,7 @@ class Body extends React.Component {
     return ((row.id === this.state.index)
         ? <EditRow key={row.id} row={row} index={index}/>
         : <Row key={index} row={row} index={index}
-               select={this.select} deleteRow={this.deleteRow} addRow={this.addRow}/>
+               select={this.select} getPage={this.props.getPage}/>
     )
   }
 
