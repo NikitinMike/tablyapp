@@ -31,22 +31,24 @@ class Body extends React.Component {
         console.log(res)
         this.rows.push(res)
         this.setState({rows: this.rows})
+        this.props.getPage(0)
       })
       .catch(e => console.log(e))
   }
 
-  deleteRow(index) {
+  async deleteRow(index) {
     // console.log(index)
     const row = this.rows[index]
     // console.log(row)
-    fetch('http://localhost:3000/contacts/' + row.id, {method: 'DELETE'})
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        this.rows.splice(index,1)
-        this.setState({rows:this.rows})
-      })
-      .catch(e => console.log(e))
+    await fetch('http://localhost:3000/contacts/' + row.id, {method: 'DELETE'})
+        .then(response => response.json())
+        .then(data => {
+          this.rows.splice(index, 1)
+          this.setState({rows: this.rows})
+          this.props.getPage(0)
+          console.log(this.state.rows)
+        })
+        .catch(e => console.log(e))
   }
 
   select(index) {
