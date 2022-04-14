@@ -9,7 +9,7 @@ class App extends React.Component {
     rows = []
     page = 1
     order = null
-    direction = true
+    direction = false
 
     constructor(props) {
         super(props);
@@ -39,15 +39,16 @@ class App extends React.Component {
         await this.getData(0).then(r => console.log(r))
     }
 
-    async getData(next, order, dir) {
+    async getData(next, order) {
         if (order != null)
             if (order !== this.order) this.order = order
-        this.direction = dir ? false : true
+            else this.direction = !this.direction
         console.log(order,this.direction)
         if (next > 1) this.page = next
         else this.page += (this.rows.length > 0) ? next : -1
         if (this.page < 0) this.page = 0;
         this.setState({isLoaded: false})
+        // if(this.direction) this.rows = this.rows.reverse()
         await fetch((this.order ? 'http://localhost:3000/contacts/' + this.order
             : 'http://localhost:3000/contacts') + '/page' + this.page)
             .then(response => response.json())
