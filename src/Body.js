@@ -28,7 +28,7 @@ class Body extends React.Component {
     })
       .then(response => response.json())
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.rows.push(res)
         this.setState({rows: this.rows})
         this.props.getPage(0)
@@ -46,7 +46,7 @@ class Body extends React.Component {
           this.rows.splice(index, 1)
           this.setState({rows: this.rows})
           this.props.getPage(0)
-          console.log(this.state.rows)
+          // console.log(this.state.rows)
         })
         .catch(e => console.log(e))
   }
