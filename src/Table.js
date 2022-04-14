@@ -9,7 +9,7 @@ class Table extends React.Component {
     header(cols) {
         return (
             <thead>
-            <tr onClick={() => this.page(-1)}>
+            <tr onClick={() => this.getData(-1)}>
                 {Headers.slice(0, cols).map((header, index) =>
                     <th key={index} id={Fields[index - 1]}
                         onClick={(e) => {
@@ -22,14 +22,10 @@ class Table extends React.Component {
         )
     }
 
-    page(p) {
-        this.getData(p)
-    }
-
     footer(cols) {
         return (
             <tfoot>
-            <tr onClick={() => this.page(+1)}>
+            <tr onClick={() => this.getData(+1)}>
                 {Footers.slice(0, cols).map((text, index) =>
                     <td key={index}>{text ? text : index}</td>)}
             </tr>

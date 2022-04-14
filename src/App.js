@@ -9,6 +9,7 @@ class App extends React.Component {
     rows = []
     page = 1
     order = null
+    direction = true
 
     constructor(props) {
         super(props);
@@ -17,7 +18,8 @@ class App extends React.Component {
             isLoaded: false,
             rows: this.rows,
             page: this.page,
-            order: this.order
+            order: this.order,
+            dir: this.direction
         };
         this.getData = this.getData.bind(this);
     }
@@ -37,8 +39,11 @@ class App extends React.Component {
         await this.getData(0).then(r => console.log(r))
     }
 
-    async getData(next, order) {
-        if (order != null) this.order = order
+    async getData(next, order, dir) {
+        if (order != null)
+            if (order !== this.order) this.order = order
+        this.direction = dir ? false : true
+        console.log(order,this.direction)
         if (next > 1) this.page = next
         else this.page += (this.rows.length > 0) ? next : -1
         if (this.page < 0) this.page = 0;
