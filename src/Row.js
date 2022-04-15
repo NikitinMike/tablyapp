@@ -14,7 +14,7 @@ class Row extends React.Component {
 
   data(col, row) {
     return (
-      <td key={col + row} onClick={() => this.selectCol(col, row)}>
+      <td key={col + row.id} onClick={() => this.selectCol(col, row)}>
         {row[col]}
       </td>
     )
@@ -62,9 +62,13 @@ class Row extends React.Component {
     const id = row.id;
     return (
       <tr key={this.state.index} onClick={() => this.props.select(id)}>
-        <td onClick={() => this.addRow({...row})}>{id}</td>
+        <td onClick={() => this.addRow({...row})}>
+          <button>{id}</button>
+        </td>
         {Fields.map(field => this.data(field, row))}
-        <td onClick={() => this.deleteRow(this.index)}>[X]</td>
+        <td onClick={() => this.deleteRow(this.index)}>
+          <button>[XXX]</button>
+        </td>
       </tr>
     )
   }

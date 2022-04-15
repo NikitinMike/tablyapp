@@ -74,8 +74,9 @@ class Table extends React.Component {
               onClick={(e) => {
                 if (e.target.id) this.getData(0, e.target.id).then(r => console.log(r))
               }}>
-            {header ? header : index}
+              {header ? header : index}
           </th>)}
+          <th><button>PGUP</button></th>
       </tr>
       </thead>
     )
@@ -86,7 +87,9 @@ class Table extends React.Component {
       <tfoot>
       <tr onClick={() => this.getData(+1)}>
         {Footers.slice(0, cols).map((text, index) =>
-          <td key={index}>{text ? text : index}</td>)}
+          <th key={index}>{text ? text : index}</th>
+        )}
+        <th><button>PGDN</button></th>
       </tr>
       </tfoot>
     )
