@@ -1,5 +1,5 @@
 import React from 'react'
-import Fields from './Fields'
+import Fields, {Site} from './Fields'
 import './App.css'
 
 class Row extends React.Component {
@@ -7,17 +7,13 @@ class Row extends React.Component {
   row = null
   index = 0
 
-  selectCol(col, row) {
-    // console.log("ROW",e.target.parentElement)
-    // this.index = e.target.parentElement.childNodes[0];
-  }
+  // selectCol(col, row) {
+  //   // console.log("ROW",e.target.parentElement)
+  //   // this.index = e.target.parentElement.childNodes[0];
+  // }
 
   data(col, row) {
-    return (
-      <td key={col + row.id} onClick={() => this.selectCol(col, row)}>
-        {row[col]}
-      </td>
-    )
+    return (<td key={col + row.id}>{row[col]}</td>)
   }
 
   constructor(props) {
@@ -28,7 +24,7 @@ class Row extends React.Component {
   }
 
   addRow(row) {
-    fetch('http://localhost:3000/contacts/', {
+    fetch(Site+'/', {
       headers: {
         // 'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -37,23 +33,15 @@ class Row extends React.Component {
       body: JSON.stringify(row)
     })
       .then(response => response.json())
-      .then(res => {
-        // this.rows.push(res)
-        // this.setState({rows: this.rows})
-        this.props.getPage(0)
-      })
+      .then(res => {this.props.getPage(0)})
       .catch(e => console.log(e))
   }
 
   async deleteRow(index) {
     // const row = this.rows[index]
-    await fetch('http://localhost:3000/contacts/' + this.row.id, {method: 'DELETE'})
+    await fetch(Site+'/' + this.row.id, {method: 'DELETE'})
       .then(response => response.json())
-      .then(data => {
-        // this.rows.splice(index, 1)
-        // this.setState({rows: this.rows})
-        this.props.getPage(0)
-      })
+      .then(data => {this.props.getPage(0)})
       .catch(e => console.log(e))
   }
 
