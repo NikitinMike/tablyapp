@@ -9,7 +9,7 @@ class App extends React.Component {
     return (
       <div className='App'>
         <form>
-          <Table cols="7" caption="C O N T A C T S"/>
+          <Table cols="7" caption=" C O N T A C T S "/>
         </form>
       </div>
     )

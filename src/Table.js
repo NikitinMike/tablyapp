@@ -55,7 +55,7 @@ class Table extends React.Component {
     return this.state.isLoaded && (
       <div>
         <table rules='all' frame='border'>
-          <caption>{this.caption}</caption>
+          <caption>{this.caption +' - '+ this.state.page}</caption>
           {this.header(this.cols)}
           <Body table={this.state.table} cols={this.cols} getPage={this.getData}/>
           {this.footer(this.cols)}
