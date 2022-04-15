@@ -27,7 +27,12 @@ class Table extends React.Component {
     this.getData = this.getData.bind(this);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.onKeyPressed.bind(this));
+  }
+
   async componentDidMount() {
+    document.addEventListener("keydown", this.onKeyPressed.bind(this));
     await this.getData(0).then(r => console.log(r))
   }
 
@@ -50,10 +55,16 @@ class Table extends React.Component {
     this.setState({table: this.table, isLoaded: true, page: this.page, order: this.order})
   }
 
+  onKeyPressed(e) {
+    // console.log(e.keyCode);
+    if (e.keyCode===33) this.getData(-1);
+    if (e.keyCode===34) this.getData(+1);
+  }
+
   render() {
     this.table = this.state.table
     return this.state.isLoaded && (
-      <div>
+      <div onKeyDown={this.onKeyPressed}>
         <table rules='all' frame='border'>
           <caption>{this.caption +' - '+ this.state.page}</caption>
           {this.header(this.cols)}
