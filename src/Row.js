@@ -4,9 +4,6 @@ import './App.css'
 
 class Row extends React.Component {
 
-  row = null
-  index = 0
-
   // selectCol(col, row) {
   //   // console.log("ROW",e.target.parentElement)
   //   // this.index = e.target.parentElement.childNodes[0];
@@ -18,9 +15,7 @@ class Row extends React.Component {
 
   constructor(props) {
     super(props);
-    this.row = props.row
-    this.index = props.index
-    this.state = {row: this.row, index: this.index};
+    this.state = {row: this.props.row, index: this.props.index};
   }
 
   addRow(row) {
@@ -38,8 +33,7 @@ class Row extends React.Component {
   }
 
   async deleteRow(index) {
-    // const row = this.rows[index]
-    await fetch(Site+'/' + this.row.id, {method: 'DELETE'})
+    await fetch(Site+'/' + this.state.row.id, {method: 'DELETE'})
       .then(response => response.json())
       .then(data => {this.props.getPage(0)})
       .catch(e => console.log(e))

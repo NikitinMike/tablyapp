@@ -4,71 +4,62 @@ import './App.css'
 
 class EditRow extends React.Component {
 
-    row = null
-    index = 0
+  editData(e, row, col) {
+    const td = e.target // .lastChild
+    // e.target.style.background = e.target.style.background ? '' : 'RED'
+    if (td.value === row[col]) return
+    row[col] = td.value
+    this.setState({row: row, edit: true})
+  }
 
-    editData(e, row, col) {
-        const td = e.target // .lastChild
-        // e.target.style.background = e.target.style.background ? '' : 'RED'
-        if (td.value === row[col]) return
-        row[col] = td.value
-        this.setState({row: row, edit: true})
-    }
+  input(col, row) {
+    return (
+      <td key={col + row.id}>
+        <input value={row[col]} color={'RED'} size={12}
+               onChange={(e) => this.editData(e, row, col)}/>
+      </td>
+    )
+  }
 
-    input(col, row) {
-        row = this.state.row
-        return (
-            <td key={col + row.id}>
-                <input value={row[col]} color={'RED'} size={12}
-                       onChange={(e) => this.editData(e, row, col)}/>
-            </td>
-        )
-    }
+  async getRow(row) {
+    const response = await fetch(Site + '/' + row.id, {method: 'GET'})
+    this.setState( {row: await response.json(), edit: false});
+  }
 
-    async getRow(id) {
-        await fetch(Site + '/' + id, {method: 'GET'})
-            .then(response => response.json())
-            .then(async data => {
-                console.log(data)
-            })
-            .catch(e => console.log(e))
-    }
+  async putRow(index) {
+    const row = this.state.row // s[this.state.index]
+    await fetch(Site + '/' + row.id, {
+      method: 'PUT',
+      body: JSON.stringify(row),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(data => console.log(data))
+      .catch(e => console.log(e))
+  }
 
-    putRow(id) {
-        const row = this.state.row // s[this.state.index]
-        if (this.state.edit)
-            fetch(Site + '/' + row.id, {
-                body: JSON.stringify(row),
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-            })
-                .then(data => console.log(data))
-                .catch(e => console.log(e))
-    }
+  componentWillUnmount() {
+    if (this.state.edit) this.putRow(this.state.index).then(r => console.log(r))
+  }
 
-    componentWillUnmount() {
-        this.putRow(this.state.row.id)
-    }
+  constructor(props) {
+    super(props);
+    this.state = {row: props.row, index: props.index, edit: false};
+  }
 
-    constructor(props) {
-        super(props);
-        this.row = this.props.row
-        this.index = this.row.id
-        this.state = {row: this.row, index: this.index, edit: false};
-    }
-
-    render() {
-        const row = this.state.row
-        return (
-            <tr key={"edit"}>
-                <td>{this.state.index}</td>
-                {Fields.map(field => this.input(field, row))}
-            </tr>
-        )
-    }
+  render() {
+    return (
+      <tr key={"edit"}>
+        <td>{this.state.index + 1}</td>
+        {Fields.map(field => this.input(field, this.state.row))}
+        <td onClick={() => this.getRow(this.state.row).then(r => console.log(r))}>
+          [ xxx ]
+        </td>
+      </tr>
+    )
+  }
 }
 
 export default EditRow
