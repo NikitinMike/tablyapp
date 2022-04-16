@@ -48,7 +48,7 @@ class Row extends React.Component {
           <button>{id}</button>
         </td>
         {Fields.map(field => this.data(field, row))}
-        <td onClick={() => this.deleteRow(this.index)}>
+        <td onClick={() => this.deleteRow(this.state.index)}>
           <button>[XXX]</button>
         </td>
       </tr>
