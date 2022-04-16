@@ -19,7 +19,7 @@ class Body extends React.Component {
   }
 
   getRow(row, index) {
-    return ((row.id === this.state.index)
+    return ((this.state.index === row.id)
         ? <EditRow key={row.id} row={row} index={index}/>
         : <Row key={index} row={row} index={index}
                select={this.select} getPage={this.props.getPage}/>
