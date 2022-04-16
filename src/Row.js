@@ -28,14 +28,14 @@ class Row extends React.Component {
       body: JSON.stringify(row)
     })
       .then(response => response.json())
-      .then(res => {this.props.getPage(0)})
+      .then(res => this.props.getPage(0))
       .catch(e => console.log(e))
   }
 
   async deleteRow(index) {
     await fetch(Site+'/' + this.state.row.id, {method: 'DELETE'})
       .then(response => response.json())
-      .then(data => {this.props.getPage(0)})
+      .then(data => this.props.getPage(0))
       .catch(e => console.log(e))
   }
 
