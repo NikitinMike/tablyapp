@@ -5,13 +5,11 @@ import EditRow from './EditRow'
 
 class Body extends React.Component {
 
-  table = []
   index = 0
 
   constructor(props) {
     super(props);
-    this.table = props.table
-    this.state = {table: this.table, index: this.index};
+    this.state = {table: props.table, index: this.index};
     this.select = this.select.bind(this);
   }
 
@@ -29,7 +27,7 @@ class Body extends React.Component {
   }
 
   mapRows() {
-    return (this.table.map((row, index) => this.getRow(row, index)))
+    return (this.state.table.map((row, index) => this.getRow(row, index)))
   }
 
   render() {
