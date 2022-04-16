@@ -16,10 +16,11 @@ class Table extends React.Component {
   constructor(props) {
     super(props);
     this.caption = props.caption
+    this.cols = props.cols
     this.state = {
       error: null,
       isLoaded: false,
-      table: this.table,
+      table: [],
       page: this.page,
       order: this.order,
       dir: this.direction
@@ -41,18 +42,19 @@ class Table extends React.Component {
       if (order !== this.order) this.order = order
       else this.direction = !this.direction
     // console.log(order, this.direction, dir)
+
     const page = this.page
     if (next > 1) this.page = next
-    else this.page += (this.table.length > 0) ? next : -1
-    if (this.page < 0) this.page = 0;
-    this.setState({isLoaded: false})
+    else this.page += (this.state.table.length > 0) ? next : -1
+    if (this.page < 0) this.page = 0
+    this.setState({isLoaded: false, order: this.order, dir: this.direction})
+
     const response = await fetch(Site + (this.order ? '/' + this.order : '') + '/page'
       + this.page + ((order == null) ? '' : ('?dir=' + (this.direction ? '1' : '-1'))))
     const table = await response.json();
+    if (table.length > 0) this.table = table; else this.page = page
     // if(this.direction) this.table = this.table.reverse()
-    if (table.length > 0) this.table = table
-    else this.page = page
-    this.setState({table: this.table, isLoaded: true, page: this.page, order: this.order})
+    this.setState({table: this.table, isLoaded: true, page: this.page})
   }
 
   onKeyPressed(e) {
@@ -62,7 +64,6 @@ class Table extends React.Component {
   }
 
   render() {
-    this.table = this.state.table
     return this.state.isLoaded && (
       <div onKeyDown={this.onKeyPressed}>
         <table rules='all' frame='border'>
