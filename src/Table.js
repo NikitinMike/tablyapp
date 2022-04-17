@@ -21,9 +21,6 @@ class Table extends React.Component {
       error: null,
       isLoaded: false,
       table: [],
-      page: this.page,
-      order: this.order,
-      dir: this.direction
     };
     this.getData = this.getData.bind(this);
   }
@@ -41,20 +38,20 @@ class Table extends React.Component {
     if (order != null)
       if (order !== this.order) this.order = order
       else this.direction = !this.direction
-    // console.log(order, this.direction, dir)
+    // console.log(next,order, this.direction)
 
     const page = this.page
     if (next > 1) this.page = next
     else this.page += (this.state.table.length > 0) ? next : -1
     if (this.page < 0) this.page = 0
-    this.setState({isLoaded: false, order: this.order, dir: this.direction})
+    this.setState({isLoaded: false})
 
     const response = await fetch(Site + (this.order ? '/' + this.order : '') + '/page'
       + this.page + ((order == null) ? '' : ('?dir=' + (this.direction ? '1' : '-1'))))
     const table = await response.json();
     if (table.length > 0) this.table = table; else this.page = page
     // if(this.direction) this.table = this.table.reverse()
-    this.setState({table: this.table, isLoaded: true, page: this.page})
+    this.setState({table: this.table, isLoaded: true})
   }
 
   onKeyPressed(e) {
@@ -67,7 +64,7 @@ class Table extends React.Component {
     return this.state.isLoaded && (
       <div onKeyDown={this.onKeyPressed}>
         <table rules='all' frame='border'>
-          <caption>{this.caption + ' - ' + (1 + this.state.page)}</caption>
+          <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
           {this.header(this.cols)}
           <Body table={this.state.table} cols={this.cols} getPage={this.getData}/>
           {this.footer(this.cols)}
@@ -79,8 +76,8 @@ class Table extends React.Component {
   header(cols) {
     return (
       <thead>
-      <tr onClick={() => this.getData(-1)}>
-        {/*<tr>*/}
+      {/*<tr onClick={() => this.getData(-1)}>*/}
+        <tr>
         {Headers.slice(0, cols).map((header, index) =>
           <th key={index} id={Fields[index - 1]}
               onClick={(e) => {
