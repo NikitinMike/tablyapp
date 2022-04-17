@@ -80,9 +80,10 @@ class Table extends React.Component {
     // dir = ' '+dir+' '; // <sup>{dir}</sup>
     return (
       <th key={index} id={column}
-          bgColor={column==this.order ? 'teal':''}
+          bgcolor={column==this.order ? 'teal':''}
           onClick={(e) => {
             if (e.target.id) this.getData(0, e.target.id)
+            else this.getData(0, 'id')
           }}>
         {dir} {header ? header : index} {dir}
       </th>
