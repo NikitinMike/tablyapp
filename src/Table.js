@@ -65,27 +65,37 @@ class Table extends React.Component {
       <div onKeyDown={this.onKeyPressed}>
         <table rules='all' frame='border'>
           <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
-          {this.header(this.cols)}
+          {this.getHeader(this.cols)}
           <Body table={this.state.table} cols={this.cols} getPage={this.getData}/>
-          {this.footer(this.cols)}
+          {this.getFooter(this.cols)}
         </table>
       </div>
     )
   }
 
-  header(cols) {
+  getColumn(header,index) {
+    const column = Fields[index - 1]
+    // const dir = this.order==column ? (this.direction ? '▲' : '▼'):''
+    let dir = this.order==column ? (this.direction ? '↑' : '↓'):''
+    // dir = ' '+dir+' '; // <sup>{dir}</sup>
+    return (
+      <th key={index} id={column}
+          bgColor={column==this.order ? 'teal':''}
+          onClick={(e) => {
+            if (e.target.id) this.getData(0, e.target.id)
+          }}>
+        {dir} {header ? header : index} {dir}
+      </th>
+    )
+  }
+
+  getHeader(cols) {
     return (
       <thead>
       {/*<tr onClick={() => this.getData(-1)}>*/}
       <tr>
-        {Headers.slice(0, cols).map((header, index) =>
-          <th key={index} id={Fields[index - 1]}
-              bgColor={Fields[index - 1]==this.order ? 'teal':''}
-              onClick={(e) => {
-                if (e.target.id) this.getData(0, e.target.id)
-              }}>
-            {(this.order==Fields[index - 1] ? (this.direction?'▲ ':'▼ '):'')+(header ? header : index)}
-          </th>)}
+        {Headers.slice(0, cols).map((column, index) =>
+          this.getColumn(column,index))}
         <th onClick={() => this.getData(-1)}>
           <button>PGUP</button>
         </th>
@@ -94,7 +104,7 @@ class Table extends React.Component {
     )
   }
 
-  footer(cols) {
+  getFooter(cols) {
     return (
       <tfoot>
       <tr onClick={() => this.getData(+1)}>
