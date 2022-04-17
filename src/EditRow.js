@@ -23,7 +23,7 @@ class EditRow extends React.Component {
 
   async getRow(row) {
     const response = await fetch(Site + '/' + row.id, {method: 'GET'})
-    this.setState( {row: await response.json(), edit: false});
+    this.setState({row: await response.json(), edit: false});
   }
 
   async putRow(index) {
@@ -52,7 +52,7 @@ class EditRow extends React.Component {
   render() {
     return (
       <tr key={"edit"}>
-        <td>{this.state.index + 1}</td>
+        <td id={this.state.index}>{this.state.row.id}</td>
         {Fields.map(field => this.input(field, this.state.row))}
         <td onClick={() => this.getRow(this.state.row).then(r => console.log(r))}>
           [ xxx ]

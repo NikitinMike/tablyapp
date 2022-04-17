@@ -11,7 +11,7 @@ class Table extends React.Component {
   table = []
   page = 1
   order = null
-  direction = false
+  dir = false
 
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ class Table extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      table: [],
+      table: this.table,
     };
     this.getData = this.getData.bind(this);
   }
@@ -37,8 +37,8 @@ class Table extends React.Component {
   async getData(next, order) {
     if (order != null)
       if (order !== this.order) this.order = order
-      else this.direction = !this.direction
-    // console.log(next,order, this.direction)
+      else this.dir = !this.dir
+    // console.log(next,order, this.dir)
 
     const page = this.page
     if (next > 1) this.page = next
@@ -47,10 +47,10 @@ class Table extends React.Component {
     this.setState({isLoaded: false})
 
     const response = await fetch(Site + (this.order ? '/' + this.order : '') + '/page'
-      + this.page + ((order == null) ? '' : ('?dir=' + (this.direction ? '1' : '-1'))))
+      + this.page + (order == null ? '' : '?dir=' + (this.dir ? '1' : '-1')))
     const table = await response.json();
     if (table.length > 0) this.table = table; else this.page = page
-    // if(this.direction) this.table = this.table.reverse()
+    // if(this.dir) this.table = this.table.reverse()
     this.setState({table: this.table, isLoaded: true})
   }
 
@@ -73,14 +73,13 @@ class Table extends React.Component {
     )
   }
 
-  getColumn(header,index) {
+  getColumn(header, index) {
     const column = Fields[index - 1]
-    // const dir = this.order==column ? (this.direction ? '▲' : '▼'):''
-    let dir = this.order==column ? (this.direction ? '↑' : '↓'):''
+    let dir = this.order == column ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
     // dir = ' '+dir+' '; // <sup>{dir}</sup>
     return (
       <th key={index} id={column}
-          bgcolor={column==this.order ? 'teal':''}
+          bgcolor={column == this.order ? 'teal' : ''}
           onClick={(e) => {
             if (e.target.id) this.getData(0, e.target.id)
             else this.getData(0, 'id')
@@ -93,12 +92,11 @@ class Table extends React.Component {
   getHeader(cols) {
     return (
       <thead>
-      {/*<tr onClick={() => this.getData(-1)}>*/}
       <tr>
         {Headers.slice(0, cols).map((column, index) =>
           this.getColumn(column,index))}
         <th onClick={() => this.getData(-1)}>
-          <button>PGUP</button>
+          <div>PGUP</div>
         </th>
       </tr>
       </thead>
@@ -113,7 +111,7 @@ class Table extends React.Component {
           <th key={index}>{text ? text : index}</th>
         )}
         <th>
-          <button>PGDN</button>
+          <div>PGDN</div>
         </th>
       </tr>
       </tfoot>

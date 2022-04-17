@@ -45,7 +45,7 @@ class Row extends React.Component {
     return (
       <tr key={this.state.index} onClick={() => this.props.select(id)}>
         <td onClick={() => this.addRow({...row})}>
-          <button>{id}</button>
+          <div>{id}</div>
         </td>
         {Fields.map(field => this.data(field, row))}
         <td onClick={() => this.deleteRow(this.state.index)}>
