@@ -77,15 +77,16 @@ class Table extends React.Component {
     return (
       <thead>
       {/*<tr onClick={() => this.getData(-1)}>*/}
-        <tr>
+      <tr>
         {Headers.slice(0, cols).map((header, index) =>
           <th key={index} id={Fields[index - 1]}
+              bgColor={Fields[index - 1]==this.order ? 'teal':''}
               onClick={(e) => {
-                if (e.target.id) this.getData(0, e.target.id).then(r => console.log(r))
+                if (e.target.id) this.getData(0, e.target.id)
               }}>
-            {header ? header : index}
+            {(this.order==Fields[index - 1] ? (this.direction?'▲ ':'▼ '):'')+(header ? header : index)}
           </th>)}
-        <th>
+        <th onClick={() => this.getData(-1)}>
           <button>PGUP</button>
         </th>
       </tr>
