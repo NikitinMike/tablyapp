@@ -6,12 +6,12 @@ export const getPage = async (page, order, dir) => {
   return await response.json();
 }
 
-export const deleteRow = async (index) => {
-  await fetch(Site + '/' + this.state.row.id, {method: 'DELETE'})
-  // .then(response => response.json())
-  // .then(data => getPage(0))
-  // .catch(e => console.log(e))
-  // await getPage(0)
+export const getRow = async (id) => {
+  return await fetch(Site + '/' + id, {method: 'GET'})
+}
+
+export const deleteRow = async (id) => {
+  await fetch(Site + '/' + id, {method: 'DELETE'})
 }
 
 export const addRow = async (row) => {
@@ -23,8 +23,4 @@ export const addRow = async (row) => {
     method: 'POST',
     body: JSON.stringify(row)
   })
-  // .then(response => response.json())
-  // .then(res => getPage(0))
-  // .catch(e => console.log(e))
-  // await getPage(0)
 }
