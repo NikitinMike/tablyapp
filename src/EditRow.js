@@ -1,6 +1,7 @@
 import React from 'react'
 import Fields, {Site} from './Fields'
 import './App.css'
+import {putRow} from "./DataService";
 
 class EditRow extends React.Component {
 
@@ -27,17 +28,18 @@ class EditRow extends React.Component {
   }
 
   async putRow(index) {
-    const row = this.state.row // s[this.state.index]
-    await fetch(Site + '/' + row.id, {
-      method: 'PUT',
-      body: JSON.stringify(row),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(data => console.log(data))
-      .catch(e => console.log(e))
+    await putRow(this.state.row)
+    // const row = this.state.row // s[this.state.index]
+    // await fetch(Site + '/' + row.id, {
+    //   method: 'PUT',
+    //   body: JSON.stringify(row),
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    // })
+    //   .then(data => console.log(data))
+    //   .catch(e => console.log(e))
   }
 
   componentWillUnmount() {

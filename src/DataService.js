@@ -14,6 +14,20 @@ export const deleteRow = async (id) => {
   await fetch(Site + '/' + id, {method: 'DELETE'})
 }
 
+export const putRow = async (row) => {
+  // const row = this.state.row // s[this.state.index]
+  await fetch(Site + '/' + row.id, {
+    method: 'PUT',
+    body: JSON.stringify(row),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+      .then(data => console.log(data))
+      .catch(e => console.log(e))
+}
+
 export const addRow = async (row) => {
   await fetch(Site + '/', {
     headers: {
