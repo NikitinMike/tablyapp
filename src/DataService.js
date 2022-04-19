@@ -1,13 +1,14 @@
 import {Site} from "./Fields";
 
 export const getPage = async (page, order, dir) => {
-  const response = await fetch(Site + (order ? '/' + order : '') + '/page'
-    + page + (order == null ? '' : '?dir=' + (dir ? '1' : '-1')))
+  const response = await fetch(Site + (order ? '/' + order : '')
+      + '/page' + page + (order == null ? '' : '?dir=' + (dir ? '1' : '-1')))
   return await response.json();
 }
 
 export const getRow = async (id) => {
-  return await fetch(Site + '/' + id, {method: 'GET'})
+  const response = await fetch(Site + '/' + id, {method: 'GET'})
+  return await response.json();
 }
 
 export const deleteRow = async (id) => {

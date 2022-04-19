@@ -1,7 +1,7 @@
 import React from 'react'
 import Fields, {Site} from './Fields'
 import './App.css'
-import {putRow} from "./DataService";
+import {getRow, putRow} from "./DataService";
 
 class EditRow extends React.Component {
 
@@ -23,27 +23,11 @@ class EditRow extends React.Component {
   }
 
   async getRow(row) {
-    const response = await fetch(Site + '/' + row.id, {method: 'GET'})
-    this.setState({row: await response.json(), edit: false});
-  }
-
-  async putRow(index) {
-    await putRow(this.state.row)
-    // const row = this.state.row // s[this.state.index]
-    // await fetch(Site + '/' + row.id, {
-    //   method: 'PUT',
-    //   body: JSON.stringify(row),
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    // })
-    //   .then(data => console.log(data))
-    //   .catch(e => console.log(e))
+    this.setState({row: await getRow(row.id), edit: false});
   }
 
   componentWillUnmount() {
-    if (this.state.edit) this.putRow(this.state.index).then(r => console.log(r))
+    if (this.state.edit) putRow(this.state.index).then(r => console.log(r))
   }
 
   constructor(props) {
