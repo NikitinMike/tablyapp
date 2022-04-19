@@ -47,9 +47,6 @@ class Table extends React.Component {
     if (this.page < 0) this.page = 0
     this.setState({isLoaded: false})
 
-    // const response = await fetch(Site + (this.order ? '/' + this.order : '') + '/page'
-    //   + this.page + (order == null ? '' : '?dir=' + (this.dir ? '1' : '-1')))
-    // const table = await response.json();
     const table = await getPage(this.page,this.order,this.dir)
 
     if (table.length > 0) this.table = table; else this.page = page
