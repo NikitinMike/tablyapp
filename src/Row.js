@@ -1,13 +1,9 @@
 import React from 'react'
 import Fields, {Site} from './Fields'
 import './App.css'
+import {addRow, deleteRow} from "./DataService";
 
 class Row extends React.Component {
-
-  // selectCol(col, row) {
-  //   // console.log("ROW",e.target.parentElement)
-  //   // this.index = e.target.parentElement.childNodes[0];
-  // }
 
   data(col, row) {
     return (<td key={col + row.id}>{row[col]}</td>)
@@ -19,24 +15,11 @@ class Row extends React.Component {
   }
 
   addRow(row) {
-    fetch(Site+'/', {
-      headers: {
-        // 'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify(row)
-    })
-      .then(response => response.json())
-      .then(res => this.props.getPage(0))
-      .catch(e => console.log(e))
+    addRow(row).then(r => this.props.getPage(0))
   }
 
   async deleteRow(index) {
-    await fetch(Site+'/' + this.state.row.id, {method: 'DELETE'})
-      .then(response => response.json())
-      .then(data => this.props.getPage(0))
-      .catch(e => console.log(e))
+    deleteRow(this.state.row.id).then(r => this.props.getPage(0))
   }
 
   render() {
