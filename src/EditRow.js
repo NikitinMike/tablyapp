@@ -27,7 +27,7 @@ class EditRow extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.state.edit) putRow(this.state.index).then(r => console.log(r))
+    if (this.state.edit) putRow(this.state.row).then(r => console.log(r))
   }
 
   constructor(props) {
