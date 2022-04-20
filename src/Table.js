@@ -21,7 +21,7 @@ class Table extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      table: this.table,
+      // table: this.table,
     };
     this.getData = this.getData.bind(this);
   }
@@ -43,7 +43,7 @@ class Table extends React.Component {
 
     const page = this.page
     if (next > 1) this.page = next
-    else this.page += (this.state.table.length > 0) ? next : -1
+    else this.page += (this.table.length > 0) ? next : -1
     if (this.page < 0) this.page = 0
     this.setState({isLoaded: false})
 
@@ -53,7 +53,7 @@ class Table extends React.Component {
     // console.log(Object.values(table[0]))
     if (table.length > 0) this.table = table; else this.page = page
     // if(this.dir) this.table = this.table.reverse()
-    this.setState({table: this.table, isLoaded: true})
+    this.setState({isLoaded: true})
   }
 
   onKeyPressed(e) {
@@ -68,7 +68,7 @@ class Table extends React.Component {
         <table rules='all' frame='border'>
           <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
           {this.getHeader(this.cols)}
-          <Body table={this.state.table} cols={this.cols} getPage={this.getData}/>
+          <Body table={this.table} cols={this.cols} getPage={this.getData}/>
           {this.getFooter(this.cols)}
         </table>
       </div>
