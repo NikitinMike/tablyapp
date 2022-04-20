@@ -33,14 +33,17 @@ class EditRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {row: props.row, index: props.index, edit: false};
+    const fields = Object.keys(props.row)
+    this.fields = fields.slice(1)
   }
 
   render() {
     return (
       <tr key={"edit"}>
         <td id={this.state.index}>{this.state.row.id}</td>
-        {Fields.map(field => this.input(field, this.state.row))}
-        <td onClick={() => this.getRow(this.state.row).then(r => console.log(r))}>
+        {this.fields.map(field => this.input(field, this.state.row))}
+        <td onClick={() => this.getRow(this.state.row).then(r => console.log(r))}
+            hidden={!this.state.edit}>
           [ xxx ]
         </td>
       </tr>

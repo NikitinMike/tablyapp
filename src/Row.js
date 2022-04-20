@@ -1,5 +1,5 @@
 import React from 'react'
-import Fields, {Site} from './Fields'
+// import Fields, {Site} from './Fields'
 import './App.css'
 import {addRow, deleteRow} from "./DataService";
 
@@ -11,7 +11,9 @@ class Row extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {row: this.props.row, index: this.props.index};
+    this.state = {row: props.row, index: props.index};
+    const fields = Object.keys(props.row)
+    this.fields = fields.slice(1)
   }
 
   addRow(row) {
@@ -28,9 +30,9 @@ class Row extends React.Component {
     return (
       <tr key={this.state.index} onClick={() => this.props.select(id)}>
         <td onClick={() => this.addRow({...row})}>
-          <div>{id}</div>
+          <div>{this.state.index}:{id}</div>
         </td>
-        {Fields.map(field => this.data(field, row))}
+        {this.fields.map(field => this.data(field, row))}
         <td onClick={() => this.deleteRow(this.state.index)}>
           <button>[XXX]</button>
         </td>
