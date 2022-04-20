@@ -48,7 +48,9 @@ class Table extends React.Component {
     this.setState({isLoaded: false})
 
     const table = await getPage(this.page,this.order,this.dir)
-
+    // table.map((row, index) => console.log(index,row))
+    // console.log(Object.keys(table[0]))
+    // console.log(Object.values(table[0]))
     if (table.length > 0) this.table = table; else this.page = page
     // if(this.dir) this.table = this.table.reverse()
     this.setState({table: this.table, isLoaded: true})
