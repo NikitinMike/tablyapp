@@ -68,7 +68,7 @@ class Table extends React.Component {
         <table rules='all' frame='border'>
           <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
           {this.getHeader(this.cols)}
-          <Body table={this.table} cols={this.cols} getPage={this.getData}/>
+          <Body table={this.table} cols={this.cols} getData={this.getData}/>
           {this.getFooter(this.cols)}
         </table>
       </div>

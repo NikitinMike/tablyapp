@@ -22,7 +22,7 @@ class Body extends React.Component {
     return ((this.state.index === row.id)
         ? <EditRow key={row.id} row={row} index={index}/>
         : <Row key={index} row={row} index={index}
-               select={this.select} getPage={this.props.getPage}/>
+               select={this.select} getPage={this.props.getData}/>
     )
   }
 
