@@ -1,5 +1,4 @@
 import React from 'react'
-import Fields, {Site} from './Fields'
 import './App.css'
 import {getRow, putRow} from "./DataService";
 
