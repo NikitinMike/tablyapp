@@ -14,12 +14,10 @@ class EditRow extends React.Component {
   }
 
   input(col, row) {
-    return (
-      <td key={col + row.id}>
-        <input value={row[col]} color={'RED'} size={12}
-               onChange={(e) => this.editData(e, row, col)}/>
-      </td>
-    )
+    return <td key={col + row.id}>
+      <input value={row[col]} color={'RED'} size={12}
+             onChange={(e) => this.editData(e, row, col)}/>
+    </td>
   }
 
   async getRow(row) {
@@ -32,22 +30,20 @@ class EditRow extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {row: props.row, index: props.index, edit: false};
-    const fields = Object.keys(props.row)
-    this.fields = fields.slice(1)
+    this.index = props.index
+    this.state = {row: props.row, edit: false};
+    this.fields = Object.keys(props.row).slice(1)
   }
 
   render() {
-    return (
-      <tr key={"edit"}>
-        <td id={this.state.index}>{this.state.row.id}</td>
-        {this.fields.map(field => this.input(field, this.state.row))}
-        <td onClick={() => this.getRow(this.state.row).then(r => console.log(r))}
-            hidden={!this.state.edit}>
-          [ xxx ]
-        </td>
-      </tr>
-    )
+    return <tr key={"edit"}>
+      <td id={this.index}>{this.state.row.id}</td>
+      {this.fields.map(field => this.input(field, this.state.row))}
+      <td onClick={() => this.getRow(this.state.row).then(r => console.log(r))}
+          hidden={!this.state.edit}>
+        [ xxx ]
+      </td>
+    </tr>
   }
 }
 
