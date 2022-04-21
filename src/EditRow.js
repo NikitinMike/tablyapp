@@ -10,7 +10,8 @@ class EditRow extends React.Component {
     // e.target.style.background = e.target.style.background ? '' : 'RED'
     if (td.value === row[col]) return
     row[col] = td.value
-    this.setState({row: row, edit: true})
+    this.row= row
+    this.setState({edit: true})
   }
 
   input(col, row) {
@@ -21,25 +22,27 @@ class EditRow extends React.Component {
   }
 
   async getRow(row) {
-    this.setState({row: await getRow(row.id), edit: false});
+    this.row= await getRow(row.id)
+    this.setState({edit: false});
   }
 
   componentWillUnmount() {
-    if (this.state.edit) putRow(this.state.row).then(r => console.log(r))
+    if (this.state.edit) putRow(this.row).then(r => console.log(r))
   }
 
   constructor(props) {
     super(props);
     this.index = props.index
-    this.state = {row: props.row, edit: false};
+    this.row= props.row
+    this.state = { edit: false};
     this.fields = Object.keys(props.row).slice(1)
   }
 
   render() {
     return <tr key={"edit"}>
-      <td id={this.index}>{this.state.row.id}</td>
-      {this.fields.map(field => this.input(field, this.state.row))}
-      <td onClick={() => this.getRow(this.state.row).then(r => console.log(r))}
+      <td id={this.index}>{this.row.id}</td>
+      {this.fields.map(field => this.input(field, this.row))}
+      <td onClick={() => this.getRow(this.row).then(r => console.log(r))}
           hidden={!this.state.edit}>
         [ xxx ]
       </td>
