@@ -7,7 +7,7 @@ export const getPage = async (page, order, dir, size) => {
         + '&size=' + (size ? 10 : size)
         + (order ? '&order=' + order : '')
         + (order == null ? '' : '&dir=' + (dir ? '1':'-1'))
-    console.log(url)
+    // console.log(url)
     const response = await fetch(url)
     return await response.json();
 }
