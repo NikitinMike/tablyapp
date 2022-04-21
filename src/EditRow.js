@@ -10,7 +10,7 @@ class EditRow extends React.Component {
     // e.target.style.background = e.target.style.background ? '' : 'RED'
     if (td.value === row[col]) return
     row[col] = td.value
-    this.row= row
+    this.row = row
     this.setState({edit: true})
   }
 
@@ -22,7 +22,7 @@ class EditRow extends React.Component {
   }
 
   async getRow(row) {
-    this.row= await getRow(row.id)
+    this.row = await getRow(row.id)
     this.setState({edit: false});
   }
 
@@ -33,8 +33,8 @@ class EditRow extends React.Component {
   constructor(props) {
     super(props);
     this.index = props.index
-    this.row= props.row
-    this.state = { edit: false};
+    this.row = props.row
+    this.state = {edit: false};
     this.fields = Object.keys(props.row).slice(1)
   }
 

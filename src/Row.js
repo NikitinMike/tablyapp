@@ -11,7 +11,7 @@ class Row extends React.Component {
   constructor(props) {
     super(props);
     this.index = props.index
-    this.state = {row: props.row};
+    this.row = props.row
     this.fields = Object.keys(props.row).slice(1)
   }
 
@@ -20,15 +20,14 @@ class Row extends React.Component {
   }
 
   async deleteRow(index) {
-    deleteRow(this.state.row.id).then(r => this.props.getPage(0))
+    deleteRow(this.row.id).then(r => this.props.getPage(0))
   }
 
   render() {
-    const row = this.state.row
-    const id = row.id;
-    return <tr key={this.index} onClick={() => this.props.select(id)}>
+    const row = this.row
+    return <tr key={this.index} onClick={() => this.props.select(row.id)}>
       <td onClick={() => this.addRow({...row})}>
-        <div>{this.index}:{id}</div>
+        <div>{this.index}:{row.id}</div>
       </td>
       {this.fields.map(field => this.data(field, row))}
       <td onClick={() => this.deleteRow(this.index)}>
