@@ -8,6 +8,7 @@ class Table extends React.Component {
 
   caption = ''
   cols = 0
+  rows = 0
   table = []
   page = 0
   order = null
@@ -17,6 +18,7 @@ class Table extends React.Component {
     super(props);
     this.caption = props.caption
     this.cols = props.cols
+    this.rows = props.rows
     this.state = {
       error: null,
       isLoaded: false,
@@ -46,7 +48,7 @@ class Table extends React.Component {
     if (this.page < 0) this.page = 0
     this.setState({isLoaded: false})
 
-    const table = await getPage(this.page, this.order, this.dir, 10)
+    const table = await getPage(this.page, this.order, this.dir, this.rows)
     // table.map((row, index) => console.log(index,row))
     // console.log(Object.keys(table[0]))
     // console.log(Object.values(table[0]))

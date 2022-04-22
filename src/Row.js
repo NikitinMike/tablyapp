@@ -25,7 +25,8 @@ class Row extends React.Component {
 
   render() {
     const row = this.row
-    return <tr key={this.index} onClick={() => this.props.select(row.id)}>
+    // return <tr key={this.index} onClick={() => this.props.select(row.id)}>
+    return <tr key={this.index} onClick={() => this.props.select(this.index)}>
       <td onClick={() => this.addRow({...row})}>
         <div>{this.index}:{row.id}</div>
       </td>

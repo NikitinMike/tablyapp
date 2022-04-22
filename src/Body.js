@@ -8,27 +8,25 @@ class Body extends React.Component {
   constructor(props) {
     super(props);
     this.table = props.table
-    this.state = {index: 0};
+    this.state = {index: null};
     this.select = this.select.bind(this);
   }
 
   select(index) {
+    // console.log(index)
     this.setState({index: index})
   }
 
   getRow(row, index) {
-    return row.id === this.state.index
+    // return row.id === this.state.index
+    return index === this.state.index
       ? <EditRow key={row.id} row={row} index={index}/>
         : <Row key={index} row={row} index={index}
                select={this.select} getPage={this.props.getData}/>
   }
 
-  mapRows(table) {
-    return (table.map((row, index) => this.getRow(row, index)))
-  }
-
   render() {
-    return (<tbody>{this.mapRows(this.table)}</tbody>)
+    return <tbody>{this.table.map((row, index) => this.getRow(row, index))}</tbody>
   }
 }
 

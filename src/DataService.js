@@ -4,7 +4,7 @@ export const getPage = async (page, order, dir, size) => {
   // const response = await fetch(Site + (order ? '/' + order : '')
   //     + '/page' + page + (order == null ? '' : '?dir=' + (dir ? '1' : '-1')))
   const url = Site + '?page=' + (page ? page : 0)
-    + '&size=' + (size ? 10 : size)
+    + '&size=' + (size ? size : 10)
     + (order ? '&order=' + order : '')
     + (order == null ? '' : '&dir=' + (dir ? '1' : '-1'))
   // console.log(url)

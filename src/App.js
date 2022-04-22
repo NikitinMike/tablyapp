@@ -8,7 +8,7 @@ class App extends React.Component {
   render() {
     return (
       <div className='App'>
-        <Table cols="7" caption=" C O N T A C T S "/>
+        <Table cols="7" rows="7" caption=" C O N T A C T S "/>
       </div>
     )
   }
