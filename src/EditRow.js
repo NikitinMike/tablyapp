@@ -4,6 +4,18 @@ import {getRow, putRow} from "./DataService";
 
 class EditRow extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.index = props.index
+    this.row = props.row
+    this.state = {edit: false};
+    this.fields = Object.keys(props.row).slice(1)
+  }
+
+  componentWillUnmount() {
+    if (this.state.edit) putRow(this.row).then(r => console.log(r))
+  }
+
   editData(e, row, col) {
     const td = e.target // .lastChild
     // e.target.style.background = e.target.style.background ? '' : 'RED'
@@ -20,28 +32,16 @@ class EditRow extends React.Component {
     </td>
   }
 
-  async getRow(row) {
-    this.row = await getRow(row.id)
+  async getRow(id) {
+    this.row = await getRow(id)
     this.setState({edit: false});
-  }
-
-  componentWillUnmount() {
-    if (this.state.edit) putRow(this.row).then(r => console.log(r))
-  }
-
-  constructor(props) {
-    super(props);
-    this.index = props.index
-    this.row = props.row
-    this.state = {edit: false};
-    this.fields = Object.keys(props.row).slice(1)
   }
 
   render() {
     return <tr key={"edit"}>
       <td id={this.index}>{this.row.id}</td>
       {this.fields.map(field => this.input(field, this.row))}
-      <td onClick={() => this.getRow(this.row).then(r => console.log(r))}
+      <td onClick={() => this.getRow(this.row.id).then(r => console.log(this.row))}
           hidden={!this.state.edit}>
         [ xxx ]
       </td>

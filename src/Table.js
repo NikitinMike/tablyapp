@@ -22,25 +22,14 @@ class Table extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      // table: this.table,
     };
     this.getData = this.getData.bind(this);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.onKeyPressed.bind(this));
-  }
-
-  async componentDidMount() {
-    document.addEventListener("keydown", this.onKeyPressed.bind(this));
-    await this.getData(0).then(r => console.log(r))
   }
 
   async getData(next, order) {
     if (order != null)
       if (order !== this.order) this.order = order
       else this.dir = !this.dir
-    // console.log(next,order, this.dir)
 
     const page = this.page
     if (next > 1) this.page = next
@@ -57,8 +46,16 @@ class Table extends React.Component {
     this.setState({isLoaded: true})
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.onKeyPressed.bind(this));
+  }
+
+  async componentDidMount() {
+    document.addEventListener("keydown", this.onKeyPressed.bind(this));
+    await this.getData(0).then(r => console.log(r))
+  }
+
   onKeyPressed(e) {
-    // console.log(e.keyCode);
     if (e.keyCode === 33) this.getData(-1).then(r => console.log(r));
     if (e.keyCode === 34) this.getData(+1).then(r => console.log(r));
   }
@@ -78,8 +75,7 @@ class Table extends React.Component {
     const column = Fields[index - 1]
     let dir = this.order == column ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
     // dir = ' '+dir+' '; // <sup>{dir}</sup>
-    return <th key={index} id={column}
-               bgcolor={column == this.order ? 'teal' : ''}
+    return <th key={index} id={column} bgcolor={dir ? 'teal' : ''}
                onClick={(e) =>
                  this.getData(0, e.target.id ? e.target.id : 'id')
                }>

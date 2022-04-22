@@ -4,10 +4,6 @@ import {addRow, deleteRow} from "./DataService";
 
 class Row extends React.Component {
 
-  data(col, row) {
-    return <td key={col + row.id}>{row[col]}</td>
-  }
-
   constructor(props) {
     super(props);
     this.index = props.index
@@ -16,11 +12,15 @@ class Row extends React.Component {
   }
 
   addRow(row) {
-    addRow(row).then(r => this.props.getPage(0))
+    addRow(row).then(() => this.props.getPage(0))
   }
 
   async deleteRow(index) {
-    deleteRow(this.row.id).then(r => this.props.getPage(0))
+    deleteRow(this.row.id).then(() => this.props.getPage(0))
+  }
+
+  data(col, row) {
+    return <td key={col + row.id}>{row[col]}</td>
   }
 
   render() {
