@@ -13,12 +13,10 @@ class Body extends React.Component {
   }
 
   select(index) {
-    // console.log(index)
     this.setState({index: index})
   }
 
   getRow(row, index) {
-    // return row.id === this.state.index
     return this.state.index === index
       ? <EditRow key={row.id} row={row} index={index}/>
         : <Row key={index} row={row} index={index}
@@ -26,7 +24,7 @@ class Body extends React.Component {
   }
 
   render() {
-    return <tbody>{this.table.map((row, index) => this.getRow(row, index))}</tbody>
+    return <tbody>{this.table.map((row, i) => this.getRow(row, i))}</tbody>
   }
 }
 

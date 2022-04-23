@@ -41,7 +41,7 @@ class EditRow extends React.Component {
     return <tr key={"edit"}>
       <td id={this.index}>{this.row.id}</td>
       {this.fields.map(field => this.input(field, this.row))}
-      <td onClick={() => this.getRow(this.row.id).then(r => console.log(this.row))}
+      <td onClick={() => this.getRow(this.row.id).then(() => console.log(this.row))}
           hidden={!this.state.edit}>
         [ xxx ]
       </td>

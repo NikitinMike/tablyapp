@@ -73,12 +73,10 @@ class Table extends React.Component {
 
   getColumn(header, index) {
     const column = Fields[index - 1]
-    let dir = column === this.order ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
+    const dir = column === this.order ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
     // dir = ' '+dir+' '; // <sup>{dir}</sup>
     return <th key={index} id={column} bgcolor={dir ? 'teal' : ''}
-               onClick={(e) =>
-                 this.getData(0, e.target.id ? e.target.id : 'id')
-               }>
+               onClick={(e) => this.getData(0, e.target.id)}>
       {dir} {header ? header : index} {dir}
     </th>
   }
@@ -86,7 +84,7 @@ class Table extends React.Component {
   getHeader(headers) {
     return <thead>
     <tr>
-      {headers.map((column, index) => this.getColumn(column, index))}
+      {headers.map((col, i) => this.getColumn(col, i))}
       <th onClick={() => this.getData(-1)}>
         <div>PGUP</div>
       </th>
@@ -97,7 +95,7 @@ class Table extends React.Component {
   getFooter(footers) {
     return <tfoot>
     <tr onClick={() => this.getData(+1)}>
-      {footers.map((text, index) => <th key={index}>{text ? text : index}</th>)}
+      {footers.map((f, i) => <th key={i}>{f ? f : i}</th>)}
       <th>
         <div>PGDN</div>
       </th>
