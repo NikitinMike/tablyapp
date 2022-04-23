@@ -73,7 +73,7 @@ class Table extends React.Component {
 
   getColumn(header, index) {
     const column = Fields[index - 1]
-    let dir = this.order == column ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
+    let dir = column === this.order ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
     // dir = ' '+dir+' '; // <sup>{dir}</sup>
     return <th key={index} id={column} bgcolor={dir ? 'teal' : ''}
                onClick={(e) =>

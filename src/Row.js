@@ -24,13 +24,11 @@ class Row extends React.Component {
   }
 
   render() {
-    const row = this.row
-    // return <tr key={this.index} onClick={() => this.props.select(row.id)}>
     return <tr key={this.index} onClick={() => this.props.select(this.index)}>
-      <td onClick={() => this.addRow({...row})}>
-        <div>{this.index}:{row.id}</div>
+      <td onClick={() => this.addRow({...this.row})}>
+        <div>{this.index}:{this.row.id}</div>
       </td>
-      {this.fields.map(field => this.data(field, row))}
+      {this.fields.map(field => this.data(field, this.row))}
       <td onClick={() => this.deleteRow(this.index)}>
         <button>[XXX]</button>
       </td>
