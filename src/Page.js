@@ -6,9 +6,6 @@ import Row from "./Row";
 
 class Page extends React.Component {
 
-  caption = ''
-  cols = 0
-  rows = 0
   table = []
   page = 0
   order = null
@@ -16,9 +13,9 @@ class Page extends React.Component {
 
   constructor(props) {
     super(props);
-    this.caption = props.caption
-    this.cols = props.cols
-    this.rows = props.rows
+    this.caption = props.caption||''
+    this.cols = props.cols||0
+    this.rows = props.rows||0
     this.state = {
       error: null,
       isLoaded: false,
@@ -65,7 +62,7 @@ class Page extends React.Component {
     return <Row key={index} row={row} index={index} getPage={this.getData}/>
   }
 
-  body(table) {
+  getBody(table) {
     return <tbody>{table.map((row, i) => this.getRow(row, i))}</tbody>
   }
 
@@ -74,7 +71,7 @@ class Page extends React.Component {
       <table rules='all' frame='border'>
         <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
         {this.getHeader(Headers.slice(0, this.cols))}
-        {this.body(this.table)}
+        {this.getBody(this.table)}
         {this.getFooter(Footers.slice(0, this.cols))}
       </table>
     </div>
