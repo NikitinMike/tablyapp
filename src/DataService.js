@@ -1,11 +1,9 @@
 const Site = 'http://localhost:3000/contacts',
- Headers = ['№', 'Имя', 'Фамилия', 'Электронная Почта', 'Телефон', 'Адрес', 'Паспорт' ],
- Footers = ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт'],
- Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'];
+  Headers = ['№', 'Имя', 'Фамилия', 'Электронная Почта', 'Телефон', 'Адрес', 'Паспорт'],
+  Footers = ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт'],
+  Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'];
 
 const getPage = async (page, order, dir, size) => {
-  // const response = await fetch(Site + (order ? '/' + order : '')
-  //     + '/page' + page + (order == null ? '' : '?dir=' + (dir ? '1' : '-1')))
   const url = Site + '?page=' + (page ? page : 0)
     + '&size=' + (size ? size : 10)
     + (order ? '&order=' + order : '')
@@ -25,7 +23,6 @@ const deleteRow = async (id) => {
 }
 
 const putRow = async (row) => {
-  // const row = this.state.row // s[this.state.index]
   await fetch(Site + '/' + row.id, {
     method: 'PUT',
     body: JSON.stringify(row),

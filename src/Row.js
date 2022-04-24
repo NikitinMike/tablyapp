@@ -8,9 +8,8 @@ class Row extends React.Component {
     super(props);
     this.index = props.index
     this.row = props.row
-    this.state = {edit: false,changed:false};
+    this.state = {edit: false, changed: false};
     this.fields = Object.keys(props.row).slice(1)
-    // this.select = this.select.bind(this);
   }
 
   select(index) {
@@ -20,7 +19,8 @@ class Row extends React.Component {
 
   componentWillUnmount() {
     // console.log(this.state,this.index,this.row)
-    if (this.state.edit && this.state.changed) DataService.putRow(this.row).then(r => console.log(r))
+    if (this.state.edit && this.state.changed)
+      DataService.putRow(this.row).then(r => console.log(r))
   }
 
   addRow(row) {
@@ -58,14 +58,14 @@ class Row extends React.Component {
 
   inputField(col, row) {
     return <td key={col + row.id}>
-      <input value={row[col]} color={'RED'} size={12}
+      <input value={row[col]} color={'RED'} size={9}
              onChange={(e) => this.editData(e, row, col)}/>
     </td>
   }
 
   async getRow(id) {
     this.row = await DataService.getRow(id)
-    this.setState({edit: false,changed:false});
+    this.setState({edit: false, changed: false});
   }
 
   editRow(index) {

@@ -12,9 +12,9 @@ class Page extends React.Component {
 
   constructor(props) {
     super(props);
-    this.caption = props.caption||''
-    this.cols = props.cols||0
-    this.rows = props.rows||0
+    this.caption = props.caption || ''
+    this.cols = props.cols || 0
+    this.rows = props.rows || 0
     this.state = {
       error: null,
       isLoaded: false,
@@ -65,17 +65,6 @@ class Page extends React.Component {
     return <tbody>{table.map((row, i) => this.getRow(row, i))}</tbody>
   }
 
-  render() {
-    return this.state.isLoaded && <div onKeyDown={this.onKeyPressed}>
-      <table rules='all' frame='border'>
-        <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
-        {this.getHeader(DataService.Headers.slice(0, this.cols))}
-        {this.getBody(this.table)}
-        {this.getFooter(DataService.Footers.slice(0, this.cols))}
-      </table>
-    </div>
-  }
-
   getColumn(header, index) {
     const column = DataService.Fields[index - 1]
     const dir = column == this.order ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
@@ -106,6 +95,17 @@ class Page extends React.Component {
       </th>
     </tr>
     </tfoot>
+  }
+
+  render() {
+    return this.state.isLoaded && <div onKeyDown={this.onKeyPressed}>
+      <table rules='all' frame='border'>
+        <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
+        {this.getHeader(DataService.Headers.slice(0, this.cols))}
+        {this.getBody(this.table)}
+        {this.getFooter(DataService.Footers.slice(0, this.cols))}
+      </table>
+    </div>
   }
 }
 
