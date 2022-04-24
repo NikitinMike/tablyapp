@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.css'
-import {addRow, deleteRow} from "./DataService";
-import {getRow, putRow} from "./DataService";
+import {addRow, deleteRow, getRow, putRow} from "./DataService";
 
 class Row extends React.Component {
 
@@ -9,19 +8,19 @@ class Row extends React.Component {
     super(props);
     this.index = props.index
     this.row = props.row
-    this.state = {edit: false};
+    this.state = {edit: false,changed:false};
     this.fields = Object.keys(props.row).slice(1)
     this.select = this.select.bind(this);
   }
 
   select(index) {
-    console.log(index)
-    this.setState({index: index})
+    // console.log(index)
+    this.setState({edit: true})
   }
 
   componentWillUnmount() {
     // console.log(this.state,this.index,this.row)
-    if (this.state.edit) putRow(this.row).then(r => console.log(r))
+    if (this.state.edit && this.state.changed) putRow(this.row).then(r => console.log(r))
   }
 
   addRow(row) {
@@ -36,13 +35,13 @@ class Row extends React.Component {
     return <td key={col + row.id}>{row[col]}</td>
   }
 
-  show() {
-    return <tr key={this.index} onClick={() => this.select(this.index)}>
+  show(index) {
+    return <tr key={index} onClick={() => this.select(index)}>
       <td onClick={() => this.addRow({...this.row})}>
-        <div>{this.index}:{this.row.id}</div>
+        <div>{index}:{this.row.id}</div>
       </td>
       {this.fields.map(field => this.data(field, this.row))}
-      <td onClick={() => this.deleteRow(this.index)}>
+      <td onClick={() => this.deleteRow(index)}>
         <button>[XXX]</button>
       </td>
     </tr>
@@ -54,7 +53,7 @@ class Row extends React.Component {
     if (td.value === row[col]) return
     row[col] = td.value
     this.row = row
-    this.setState({edit: true})
+    this.setState({changed: true})
   }
 
   input(col, row) {
@@ -66,22 +65,22 @@ class Row extends React.Component {
 
   async getRow(id) {
     this.row = await getRow(id)
-    this.setState({edit: false});
+    this.setState({edit: false,changed:false});
   }
 
-  edit() {
-    return <tr key={this.index}>
-      <td id={this.index}>{this.row.id}</td>
+  edit(index) {
+    return <tr key={index}>
+      <td id={index}>{this.row.id}</td>
       {this.fields.map(field => this.input(field, this.row))}
       <td onClick={() => this.getRow(this.row.id).then(() => console.log(this.row))}
-          hidden={!this.state.edit}>
+          hidden={!this.state.changed}>
         [ xxx ]
       </td>
     </tr>
   }
 
   render() {
-    return true ?this.show(): this.edit()
+    return this.state.edit ? this.edit(this.index) : this.show(this.index)
   }
 }
 

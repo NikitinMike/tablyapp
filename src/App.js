@@ -1,5 +1,5 @@
 import React from 'react'
-import Table from './Table'
+import Page from './Page'
 import './App.css'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 class App extends React.Component {
   render() {
     return <div className='App'>
-      <Table cols="7" rows="7" caption=" C O N T A C T S "/>
+      <Page cols="7" rows="10" caption=" C O N T A C T S "/>
     </div>
   }
 }

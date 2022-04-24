@@ -1,10 +1,10 @@
 import React from 'react'
-import Body from './Body'
 import './App.css'
 import Fields, {Headers, Footers} from './Fields'
 import {getPage} from "./DataService";
+import Row from "./Row";
 
-class Table extends React.Component {
+class Page extends React.Component {
 
   caption = ''
   cols = 0
@@ -53,6 +53,7 @@ class Table extends React.Component {
   async componentDidMount() {
     document.addEventListener("keydown", this.onKeyPressed.bind(this));
     await this.getData(0).then(r => console.log(r))
+    this.fields = Object.keys(this.table[0])
   }
 
   onKeyPressed(e) {
@@ -60,12 +61,20 @@ class Table extends React.Component {
     if (e.keyCode === 34) this.getData(+1).then(r => console.log(r));
   }
 
+  getRow(row, index) {
+    return <Row key={index} row={row} index={index} getPage={this.getData}/>
+  }
+
+  body(table) {
+    return <tbody>{table.map((row, i) => this.getRow(row, i))}</tbody>
+  }
+
   render() {
     return this.state.isLoaded && <div onKeyDown={this.onKeyPressed}>
       <table rules='all' frame='border'>
         <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
         {this.getHeader(Headers.slice(0, this.cols))}
-        <Body table={this.table} cols={this.cols} getData={this.getData}/>
+        {this.body(this.table)}
         {this.getFooter(Footers.slice(0, this.cols))}
       </table>
     </div>
@@ -73,7 +82,7 @@ class Table extends React.Component {
 
   getColumn(header, index) {
     const column = Fields[index - 1]
-    const dir = column === this.order ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
+    const dir = column == this.order ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
     // dir = ' '+dir+' '; // <sup>{dir}</sup>
     return <th key={index} id={column} bgcolor={dir ? 'teal' : ''}
                onClick={(e) => this.getData(0, e.target.id)}>
@@ -104,4 +113,4 @@ class Table extends React.Component {
   }
 }
 
-export default Table
+export default Page
