@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import Row from './Row'
-import EditRow from './EditRow'
+import RowEdit from './RowEdit'
 
 class Body extends React.Component {
 
@@ -18,7 +18,7 @@ class Body extends React.Component {
 
   getRow(row, index) {
     return this.state.index === index
-      ? <EditRow key={row.id} row={row} index={index}/>
+      ? <RowEdit key={row.id} row={row} index={index}/>
         : <Row key={index} row={row} index={index}
                select={this.select} getPage={this.props.getData}/>
   }

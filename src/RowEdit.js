@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css'
 import {getRow, putRow} from "./DataService";
 
-class EditRow extends React.Component {
+class RowEdit extends React.Component {
 
   constructor(props) {
     super(props);
@@ -49,4 +49,4 @@ class EditRow extends React.Component {
   }
 }
 
-export default EditRow
+export default RowEdit
