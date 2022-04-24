@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.css'
-import Fields, {Headers, Footers} from './Fields'
-import {getPage} from "./DataService";
+import {DataService} from "./DataService";
 import Row from "./Row";
 
 class Page extends React.Component {
@@ -34,7 +33,7 @@ class Page extends React.Component {
     if (this.page < 0) this.page = 0
     this.setState({isLoaded: false})
 
-    const table = await getPage(this.page, this.order, this.dir, this.rows)
+    const table = await DataService.getPage(this.page, this.order, this.dir, this.rows)
     // table.map((row, index) => console.log(index,row))
     // console.log(Object.keys(table[0]))
     // console.log(Object.values(table[0]))
@@ -70,15 +69,15 @@ class Page extends React.Component {
     return this.state.isLoaded && <div onKeyDown={this.onKeyPressed}>
       <table rules='all' frame='border'>
         <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
-        {this.getHeader(Headers.slice(0, this.cols))}
+        {this.getHeader(DataService.Headers.slice(0, this.cols))}
         {this.getBody(this.table)}
-        {this.getFooter(Footers.slice(0, this.cols))}
+        {this.getFooter(DataService.Footers.slice(0, this.cols))}
       </table>
     </div>
   }
 
   getColumn(header, index) {
-    const column = Fields[index - 1]
+    const column = DataService.Fields[index - 1]
     const dir = column == this.order ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
     // dir = ' '+dir+' '; // <sup>{dir}</sup>
     return <th key={index} id={column} bgcolor={dir ? 'teal' : ''}

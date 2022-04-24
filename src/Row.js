@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import {addRow, deleteRow, getRow, putRow} from "./DataService";
+import {DataService} from "./DataService";
 
 class Row extends React.Component {
 
@@ -10,7 +10,7 @@ class Row extends React.Component {
     this.row = props.row
     this.state = {edit: false,changed:false};
     this.fields = Object.keys(props.row).slice(1)
-    this.select = this.select.bind(this);
+    // this.select = this.select.bind(this);
   }
 
   select(index) {
@@ -20,27 +20,27 @@ class Row extends React.Component {
 
   componentWillUnmount() {
     // console.log(this.state,this.index,this.row)
-    if (this.state.edit && this.state.changed) putRow(this.row).then(r => console.log(r))
+    if (this.state.edit && this.state.changed) DataService.putRow(this.row).then(r => console.log(r))
   }
 
   addRow(row) {
-    addRow(row).then(() => this.props.getPage(0))
+    DataService.addRow(row).then(() => this.props.getPage(0))
   }
 
   async deleteRow(index) {
-    deleteRow(this.row.id).then(() => this.props.getPage(0))
+    DataService.deleteRow(this.row.id).then(() => this.props.getPage(0))
   }
 
-  data(col, row) {
+  dataField(col, row) {
     return <td key={col + row.id}>{row[col]}</td>
   }
 
-  show(index) {
+  showRow(index) {
     return <tr key={index} onClick={() => this.select(index)}>
       <td onClick={() => this.addRow({...this.row})}>
         <div>{index}:{this.row.id}</div>
       </td>
-      {this.fields.map(field => this.data(field, this.row))}
+      {this.fields.map(f => this.dataField(f, this.row))}
       <td onClick={() => this.deleteRow(index)}>
         <button>[XXX]</button>
       </td>
@@ -56,7 +56,7 @@ class Row extends React.Component {
     this.setState({changed: true})
   }
 
-  input(col, row) {
+  inputField(col, row) {
     return <td key={col + row.id}>
       <input value={row[col]} color={'RED'} size={12}
              onChange={(e) => this.editData(e, row, col)}/>
@@ -64,14 +64,14 @@ class Row extends React.Component {
   }
 
   async getRow(id) {
-    this.row = await getRow(id)
+    this.row = await DataService.getRow(id)
     this.setState({edit: false,changed:false});
   }
 
-  edit(index) {
+  editRow(index) {
     return <tr key={index}>
       <td id={index}>{this.row.id}</td>
-      {this.fields.map(field => this.input(field, this.row))}
+      {this.fields.map(f => this.inputField(f, this.row))}
       <td onClick={() => this.getRow(this.row.id).then(() => console.log(this.row))}
           hidden={!this.state.changed}>
         [ xxx ]
@@ -80,7 +80,7 @@ class Row extends React.Component {
   }
 
   render() {
-    return this.state.edit ? this.edit(this.index) : this.show(this.index)
+    return this.state.edit ? this.editRow(this.index) : this.showRow(this.index)
   }
 }
 
