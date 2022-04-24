@@ -23,7 +23,7 @@ class Row extends React.Component {
     return <td key={col + row.id}>{row[col]}</td>
   }
 
-  render() {
+  show() {
     return <tr key={this.index} onClick={() => this.props.select(this.index)}>
       <td onClick={() => this.addRow({...this.row})}>
         <div>{this.index}:{this.row.id}</div>
@@ -33,6 +33,10 @@ class Row extends React.Component {
         <button>[XXX]</button>
       </td>
     </tr>
+  }
+
+  render() {
+    return this.show()
   }
 }
 
