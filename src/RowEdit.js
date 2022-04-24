@@ -37,7 +37,7 @@ class RowEdit extends React.Component {
     this.setState({edit: false});
   }
 
-  edit() {
+  editRow() {
     return <tr key={"edit"}>
       <td id={this.index}>{this.row.id}</td>
       {this.fields.map(field => this.input(field, this.row))}
@@ -47,8 +47,9 @@ class RowEdit extends React.Component {
       </td>
     </tr>
   }
+
   render() {
-    return this.edit()
+    return this.editRow()
   }
 }
 
