@@ -1,4 +1,4 @@
-import {Site} from "./Fields";
+export const Site = 'http://localhost:3000/contacts'
 
 export const getPage = async (page, order, dir, size) => {
   // const response = await fetch(Site + (order ? '/' + order : '')
