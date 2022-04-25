@@ -53,6 +53,7 @@ class Page extends React.Component {
   }
 
   onKeyPressed(e) {
+    if (e.keyCode === 27) this.getData(0).then(r => console.log(r));
     if (e.keyCode === 33) this.getData(-1).then(r => console.log(r));
     if (e.keyCode === 34) this.getData(+1).then(r => console.log(r));
   }
