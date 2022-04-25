@@ -1,7 +1,8 @@
 const Site = 'http://localhost:3000/contacts',
   Headers = ['№', 'Имя', 'Фамилия', 'Электронная Почта', 'Телефон', 'Адрес', 'Паспорт'],
   Footers = ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт'],
-  Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'];
+  Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'],
+  Size = [4, 7, 16, 10, 9, 3];
 
 const getPage = async (page, order, dir, size) => {
   const url = Site + '?page=' + (page ? page : 0)
@@ -46,7 +47,7 @@ const addRow = async (row) => {
   })
 }
 export const DataService = {
-  Fields, Headers, Footers,
+  Fields, Headers, Footers,Size,
   getPage,
   getRow,
   deleteRow,

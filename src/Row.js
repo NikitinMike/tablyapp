@@ -56,9 +56,9 @@ class Row extends React.Component {
     this.setState({changed: true})
   }
 
-  inputField(col, row) {
+  inputField(col,i, row) {
     return <td key={col + row.id}>
-      <input value={row[col]} color={'RED'} size={9}
+      <input value={row[col]} color={'RED'} size={DataService.Size[i]}
              onChange={(e) => this.editData(e, row, col)}/>
     </td>
   }
@@ -71,7 +71,7 @@ class Row extends React.Component {
   editRow(index) {
     return <tr key={index}>
       <td id={index}>{this.row.id}</td>
-      {this.fields.map(f => this.inputField(f, this.row))}
+      {this.fields.map((f,i) => this.inputField(f,i, this.row))}
       <td onClick={() => this.getRow(this.row.id).then(() => console.log(this.row))}
           hidden={!this.state.changed}>
         [ xxx ]
