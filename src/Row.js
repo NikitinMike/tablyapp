@@ -9,12 +9,7 @@ class Row extends React.Component {
     this.index = props.index
     this.row = props.row
     this.state = {edit: false, changed: false};
-    this.fields = Object.keys(props.row).slice(1)
-  }
-
-  select(index) {
-    // console.log(index)
-    this.setState({edit: true})
+    this.fields = Object.keys(this.row).slice(1)
   }
 
   componentWillUnmount() {
@@ -23,28 +18,17 @@ class Row extends React.Component {
       DataService.putRow(this.row).then(r => console.log(r))
   }
 
+  async getRow(id) {
+    this.row = await DataService.getRow(id)
+    this.setState({edit: false, changed: false});
+  }
+
   addRow(row) {
     DataService.addRow(row).then(() => this.props.getPage(0))
   }
 
   async deleteRow(index) {
     DataService.deleteRow(this.row.id).then(() => this.props.getPage(0))
-  }
-
-  dataField(col, row) {
-    return <td key={col + row.id}>{row[col]}</td>
-  }
-
-  showRow(index) {
-    return <tr key={index} onClick={() => this.select(index)}>
-      <td onClick={() => this.addRow({...this.row})}>
-        <div>{index}:{this.row.id}</div>
-      </td>
-      {this.fields.map(f => this.dataField(f, this.row))}
-      <td onClick={() => this.deleteRow(index)}>
-        <button>[XXX]</button>
-      </td>
-    </tr>
   }
 
   editData(e, row, col) {
@@ -63,11 +47,6 @@ class Row extends React.Component {
     </td>
   }
 
-  async getRow(id) {
-    this.row = await DataService.getRow(id)
-    this.setState({edit: false, changed: false});
-  }
-
   editRow(index) {
     return <tr key={index}>
       <td id={index}>{this.row.id}</td>
@@ -75,6 +54,27 @@ class Row extends React.Component {
       <td onClick={() => this.getRow(this.row.id).then(() => console.log(this.row))}
           hidden={!this.state.changed}>
         [ xxx ]
+      </td>
+    </tr>
+  }
+
+  select(index) {
+    // console.log(index)
+    this.setState({edit: true})
+  }
+
+  dataField(col, row) {
+    return <td key={col + row.id}>{row[col]}</td>
+  }
+
+  showRow(index) {
+    return <tr key={index} onClick={() => this.select(index)}>
+      <td onClick={() => this.addRow({...this.row})}>
+        <div>{index}:{this.row.id}</div>
+      </td>
+      {this.fields.map(f => this.dataField(f, this.row))}
+      <td onClick={() => this.deleteRow(index)}>
+        <button>[XXX]</button>
       </td>
     </tr>
   }
