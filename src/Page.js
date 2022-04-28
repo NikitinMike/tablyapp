@@ -102,6 +102,7 @@ class Page extends React.Component {
     return this.state.isLoaded && <div onKeyDown={this.onKeyPressed}>
       <table rules='all' frame='border'>
         <caption>{this.caption + ' - ' + (1 + this.page)}</caption>
+        <colgroup><col className="numbers"/></colgroup>
         {this.getHeader(DataService.Headers.slice(0, this.cols))}
         {this.getBody(this.table)}
         {this.getFooter(DataService.Footers.slice(0, this.cols))}

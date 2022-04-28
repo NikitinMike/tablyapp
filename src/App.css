@@ -1,27 +1,32 @@
 .App {
-  text-align: left;
+    text-align: left;
 }
 
 table {
-  margin-left: 5%;
-  margin-top: 3%;
-  width: 90%;
-  /* border: 1px 1px 1px 1px; */
-  border-color: brown;
+    margin-left: 5%;
+    margin-top: 3%;
+    width: 90%;
+    /* border: 1px 1px 1px 1px; */
+    border-color: brown;
+}
+
+/*https://www.w3.org/TR/CSS21/tables.html#columns*/
+col.numbers {
+    background: aquamarine
 }
 
 td {
-  text-align: center ;
+    text-align: center;
 }
 
 thead {
-  text-align: center ;
-  background-color: black;
-  color: aquamarine;
+    text-align: center;
+    background-color: black;
+    color: aquamarine;
 }
 
 tfoot {
-  text-align: center ;
-  background-color: gray;
-  color: aquamarine;
+    text-align: center;
+    background-color: gray;
+    color: aquamarine;
 }
