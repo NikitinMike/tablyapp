@@ -4,7 +4,42 @@ const Site = 'http://localhost:3000/contacts',
   Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'],
   Size = [4, 7, 16, 10, 9, 3];
 
+const tokenGet = async function () {
+  const response = await fetch('http://localhost:3000/auth/login?username=john&password=changeme', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow'
+  })
+    // .then(response => response.text())
+    // .then(result => console.log(result))
+    // .catch(error => console.log('error', error));
+  return await response.json();
+}
+
+const getProfile = async function (token) {
+  const response = await fetch('http://localhost:3000/profile', {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+    redirect: 'follow'
+  })
+    // .then(response => response.text())
+    // .then(result => console.log(result))
+    // .catch(error => console.log('error', error));
+  return await response.json();
+}
+
 const getPage = async (page, order, dir, size) => {
+  const token = await tokenGet()
+  // console.log(token.access_token)
+  const profile = await getProfile('Bearer '+token.access_token)
+  console.log(profile)
   const url = Site + '?page=' + (page ? page : 0)
     + '&size=' + (size ? size : 10)
     + (order ? '&order=' + order : '')
@@ -47,7 +82,7 @@ const addRow = async (row) => {
   })
 }
 export const DataService = {
-  Fields, Headers, Footers,Size,
+  Fields, Headers, Footers, Size,
   getPage,
   getRow,
   deleteRow,
