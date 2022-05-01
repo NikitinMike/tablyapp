@@ -17,29 +17,37 @@ const tokenGet = async function (username,password) {
   return await response.json();
 }
 
-const getProfile = async function (token) {
+const getProfile = async function (authorization) {
   const response = await fetch(`${server}/profile`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': token,
+      'Authorization': authorization,
     },
     redirect: 'follow'
   })
   return await response.json();
 }
 
-const getPage = async (page, order, dir, size) => {
-  const token = await tokenGet('john','changeme')
-  const profile = await getProfile('Bearer '+token.access_token)
-  console.log(profile)
+const getPage = async (token, page, order, dir, size) => {
+  // const token = await tokenGet('john','changeme')
+  // const profile = await getProfile('Bearer '+token.access_token)
+  // console.log(profile)
   const url = Site + '?page=' + (page ? page : 0)
     + '&size=' + (size ? size : 10)
     + (order ? '&order=' + order : '')
     + (order == null ? '' : '&dir=' + (dir ? '1' : '-1'))
   // console.log(url)
-  const response = await fetch(url)
+  const response = await fetch(url,{
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+token.access_token,
+    },
+    redirect: 'follow'
+  })
   return await response.json();
 }
 
@@ -77,6 +85,7 @@ const addRow = async (row) => {
 }
 export const DataService = {
   Fields, Headers, Footers, Size,
+  tokenGet,
   getPage,
   getRow,
   deleteRow,
