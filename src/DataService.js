@@ -1,11 +1,12 @@
-const Site = 'http://localhost:3000/contacts',
+const server = 'http://localhost:3000'
+const Site = `${server}/contacts`,
   Headers = ['№', 'Имя', 'Фамилия', 'Электронная Почта', 'Телефон', 'Адрес', 'Паспорт'],
   Footers = ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт'],
   Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'],
   Size = [4, 7, 16, 10, 9, 3];
 
-const tokenGet = async function () {
-  const response = await fetch('http://localhost:3000/auth/login?username=john&password=changeme', {
+const tokenGet = async function (username,password) {
+  const response = await fetch(`${server}/auth/login?username=${username}&password=${password}`,{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -13,14 +14,11 @@ const tokenGet = async function () {
     },
     redirect: 'follow'
   })
-    // .then(response => response.text())
-    // .then(result => console.log(result))
-    // .catch(error => console.log('error', error));
   return await response.json();
 }
 
 const getProfile = async function (token) {
-  const response = await fetch('http://localhost:3000/profile', {
+  const response = await fetch(`${server}/profile`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -29,15 +27,11 @@ const getProfile = async function (token) {
     },
     redirect: 'follow'
   })
-    // .then(response => response.text())
-    // .then(result => console.log(result))
-    // .catch(error => console.log('error', error));
   return await response.json();
 }
 
 const getPage = async (page, order, dir, size) => {
-  const token = await tokenGet()
-  // console.log(token.access_token)
+  const token = await tokenGet('john','changeme')
   const profile = await getProfile('Bearer '+token.access_token)
   console.log(profile)
   const url = Site + '?page=' + (page ? page : 0)
