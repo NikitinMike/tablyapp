@@ -9,9 +9,7 @@ import * as PropTypes from "prop-types";
 const ThemeContext = React.createContext('light');
 
 // Контекст активного пользователя
-const UserContext = React.createContext({
-  name: 'Guest',
-});
+const UserContext = React.createContext({name: 'john',password:'changeme'});
 
 class App extends React.Component {
   render() {
@@ -32,12 +30,10 @@ function Sidebar() {
 }
 
 function Layout() {
-  return (
-    <div>
+  return <div>
       <Sidebar/>
       <Content/>
     </div>
-  );
 }
 
 function ProfilePage(props) {
@@ -51,17 +47,13 @@ ProfilePage.propTypes = {
 
 // Компонент, который может использовать несколько контекстов
 function Content() {
-  return (
-    <ThemeContext.Consumer>
+  return <ThemeContext.Consumer>
       {theme => (
         <UserContext.Consumer>
-          {user => (
-            <ProfilePage user={user} theme={theme}/>
-          )}
+          {user => (<ProfilePage user={user} theme={theme}/>)}
         </UserContext.Consumer>
       )}
     </ThemeContext.Consumer>
-  );
 }
 
 export default App
