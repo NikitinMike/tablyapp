@@ -1,3 +1,5 @@
+import React from "react";
+
 const server = 'https://localhost:443'
 // const server = 'http://localhost:3000'
 const Site = `${server}/contacts`,
@@ -6,8 +8,17 @@ const Site = `${server}/contacts`,
   Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'],
   Size = [4, 7, 16, 10, 9, 3];
 
+export const AuthContext = React.createContext(undefined);
+
+// Контекст UI-темы, со светлым значением по умолчанию
+export const ThemeContext = React.createContext('light');
+
+// Контекст активного пользователя
+export const UserContext = React.createContext({name: 'john',password:'changeme'});
+
 const tokenGet = async function (username,password) {
-  const response = await fetch(`${server}/auth/login?username=${username}&password=${password}`,{
+  const response = await fetch(
+    `${server}/auth/login?username=${username}&password=${password}`,{
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -57,28 +68,36 @@ const getRow = async (id) => {
   return await response.json();
 }
 
-const deleteRow = async (id) => {
-  await fetch(Site + '/' + id, {method: 'DELETE'})
+const deleteRow = async (id,token) => {
+  await fetch(Site + '/' + id, {method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+token.access_token,
+    },
+  })
 }
 
-const putRow = async (row) => {
+const putRow = async (row,token) => {
   await fetch(Site + '/' + row.id, {
     method: 'PUT',
     body: JSON.stringify(row),
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+token.access_token,
     },
   })
     .then(data => console.log(data))
     .catch(e => console.log(e))
 }
 
-const addRow = async (row) => {
+const addRow = async (row,token) => {
   await fetch(Site + '/', {
     headers: {
       // 'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+token.access_token,
     },
     method: 'POST',
     body: JSON.stringify(row)

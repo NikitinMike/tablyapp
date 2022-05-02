@@ -15,7 +15,7 @@ class Row extends React.Component {
   componentWillUnmount() {
     // console.log(this.state,this.index,this.row)
     if (this.state.edit && this.state.changed)
-      DataService.putRow(this.row).then(r => console.log(r))
+      DataService.putRow(this.row,this.props.token).then(r => console.log(r))
   }
 
   async getRow(id) {
@@ -23,12 +23,12 @@ class Row extends React.Component {
     this.setState({edit: false, changed: false});
   }
 
-  addRow(row) {
-    DataService.addRow(row).then(() => this.props.getPage(0))
+  addRow(row,token) {
+    DataService.addRow(row,token).then(() => this.props.getPage(0))
   }
 
-  async deleteRow(index) {
-    DataService.deleteRow(this.row.id).then(() => this.props.getPage(0))
+  async deleteRow(index,token) {
+    DataService.deleteRow(this.row.id,token).then(() => this.props.getPage(0))
   }
 
   editData(e, row, col) {
@@ -69,11 +69,11 @@ class Row extends React.Component {
 
   showRow(index) {
     return <tr key={index} onClick={() => this.select(index)}>
-      <td onClick={() => this.addRow({...this.row})}>
+      <td onClick={() => this.addRow({...this.row},this.props.token)}>
         <div>{index}:{this.row.id}</div>
       </td>
       {this.fields.map(f => this.dataField(f, this.row))}
-      <td onClick={() => this.deleteRow(index)}>
+      <td onClick={() => this.deleteRow(index,this.props.token)}>
         <button>[XXX]</button>
       </td>
     </tr>

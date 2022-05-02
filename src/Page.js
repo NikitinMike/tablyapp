@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import {DataService} from "./DataService";
+import {DataService, UserContext} from "./DataService";
 import Row from "./Row";
 
 class Page extends React.Component {
@@ -50,7 +50,7 @@ class Page extends React.Component {
   async componentDidMount() {
     this.token = await DataService.tokenGet('john', 'changeme')
     document.addEventListener("keydown", this.onKeyPressed.bind(this));
-    await this.getData(0).then(r => console.log(r))
+    await this.getData(0)
     this.fields = Object.keys(this.table[0])
   }
 
@@ -61,7 +61,7 @@ class Page extends React.Component {
   }
 
   getRow(row, index) {
-    return <Row key={index} row={row} index={index} getPage={this.getData}/>
+    return <Row key={index} row={row} index={index} getPage={this.getData} token={this.token}/>
   }
 
   getBody(table) {
@@ -107,12 +107,20 @@ class Page extends React.Component {
         <colgroup>
           <col className="numbers"/>
         </colgroup>
+        <UserContext.Consumer>
+          {user => (<Token name={user}/>)}
+        </UserContext.Consumer>
         {this.getHeader(DataService.Headers.slice(0, this.cols))}
         {this.getBody(this.table)}
         {this.getFooter(DataService.Footers.slice(0, this.cols))}
       </table>
     </div>
   }
+}
+
+function Token(props) {
+  // console.log(props)
+  return null
 }
 
 export default Page
