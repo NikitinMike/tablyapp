@@ -33,7 +33,8 @@ class Page extends React.Component {
     if (this.page < 0) this.page = 0
     this.setState({isLoaded: false})
 
-    const table = this.token && await DataService.getPage(this.token, this.page, this.order, this.dir, this.rows)
+    const table = await this.token &&
+      await DataService.getPage(this.token, this.page, this.order, this.dir, this.rows)
     // table.map((row, index) => console.log(index,row))
     // console.log(Object.keys(table[0]))
     // console.log(Object.values(table[0]))
@@ -49,7 +50,7 @@ class Page extends React.Component {
   async componentDidMount() {
     this.token = await DataService.tokenGet('john', 'changeme')
     document.addEventListener("keydown", this.onKeyPressed.bind(this));
-    await this.getData(await this.token,0).then(r => console.log(r))
+    await this.getData(0).then(r => console.log(r))
     this.fields = Object.keys(this.table[0])
   }
 
