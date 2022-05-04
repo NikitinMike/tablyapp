@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import {DataService, UserContext} from "./DataService";
+import DataService, {DataServiceConst} from "./DataService";
 import Row from "./Row";
 
 class Page extends React.Component {
@@ -20,6 +20,7 @@ class Page extends React.Component {
       isLoaded: false,
     };
     this.getData = this.getData.bind(this);
+    this.data = new DataService()
   }
 
   async getData(next, order) {
@@ -34,7 +35,7 @@ class Page extends React.Component {
     this.setState({isLoaded: false})
 
     const table = await this.token &&
-      await DataService.getPage(this.token, this.page, this.order, this.dir, this.rows)
+      await this.data.getPage(this.page, this.order, this.dir, this.rows)
     // table.map((row, index) => console.log(index,row))
     // console.log(Object.keys(table[0]))
     // console.log(Object.values(table[0]))
@@ -48,7 +49,7 @@ class Page extends React.Component {
   }
 
   async componentDidMount() {
-    this.token = await DataService.tokenGet('john', 'changeme')
+    this.token = await this.data.tokenGet('john', 'changeme')
     document.addEventListener("keydown", this.onKeyPressed.bind(this));
     await this.getData(0)
     this.fields = Object.keys(this.table[0])
@@ -61,7 +62,7 @@ class Page extends React.Component {
   }
 
   getRow(row, index) {
-    return <Row key={index} row={row} index={index} getPage={this.getData} token={this.token}/>
+    return <Row key={index} row={row} index={index} data={this.data} token={this.token}/>
   }
 
   getBody(table) {
@@ -69,7 +70,7 @@ class Page extends React.Component {
   }
 
   getColumn(header, index) {
-    const column = DataService.Fields[index - 1]
+    const column = DataServiceConst.Fields[index - 1]
     const dir = column == this.order ? (this.dir ? '↑' : '↓') : ''; // ? '▲' : '▼'):''
     // dir = ' '+dir+' '; // <sup>{dir}</sup>
     return <th key={index} id={column} bgcolor={dir ? 'teal' : ''}
@@ -107,20 +108,13 @@ class Page extends React.Component {
         <colgroup>
           <col className="numbers"/>
         </colgroup>
-        <UserContext.Consumer>
-          {user => (<Token name={user}/>)}
-        </UserContext.Consumer>
-        {this.getHeader(DataService.Headers.slice(0, this.cols))}
+        {/*<UserContext.Consumer>{user => (<Token name={user}/>)}</UserContext.Consumer>*/}
+        {this.getHeader(DataServiceConst.Headers.slice(0, this.cols))}
         {this.getBody(this.table)}
-        {this.getFooter(DataService.Footers.slice(0, this.cols))}
+        {this.getFooter(DataServiceConst.Footers.slice(0, this.cols))}
       </table>
     </div>
   }
-}
-
-function Token(props) {
-  // console.log(props)
-  return null
 }
 
 export default Page
