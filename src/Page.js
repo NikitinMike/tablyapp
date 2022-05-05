@@ -33,8 +33,7 @@ class Page extends React.Component {
     if (this.page < 0) this.page = 0
     this.setState({isLoaded: false})
 
-    const table = await this.token &&
-      await DataService.getPage(this.token, this.page, this.order, this.dir, this.rows)
+    const table = await DataService.getPage(this.page, this.order, this.dir, this.rows)
     // table.map((row, index) => console.log(index,row))
     // console.log(Object.keys(table[0]))
     // console.log(Object.values(table[0]))
@@ -61,7 +60,7 @@ class Page extends React.Component {
   }
 
   getRow(row, index) {
-    return <Row key={index} row={row} index={index} getPage={this.getData} token={this.token}/>
+    return <Row key={index} row={row} index={index} getPage={this.getData}/>
   }
 
   getBody(table) {

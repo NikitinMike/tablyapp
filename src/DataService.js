@@ -2,11 +2,10 @@ import React from "react";
 
 const server = 'https://localhost:443'
 // const server = 'http://localhost:3000'
-const Site = `${server}/contacts`,
+const Site = `${server}/contacts`, Size = [4, 7, 16, 10, 9, 3],
   Headers = ['№', 'Имя', 'Фамилия', 'Электронная Почта', 'Телефон', 'Адрес', 'Паспорт'],
   Footers = ['№', 'Фамилия', 'Имя', 'Отчество', 'Год', 'Адрес', 'Паспорт'],
-  Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'],
-  Size = [4, 7, 16, 10, 9, 3];
+  Fields = ['firstName', 'lastName', 'email', 'phone', 'city', 'country'];
 
 export const AuthContext = React.createContext(undefined);
 
@@ -16,7 +15,10 @@ export const ThemeContext = React.createContext('light');
 // Контекст активного пользователя
 export const UserContext = React.createContext({name: 'john',password:'changeme'});
 
+let Token = null;
+
 const tokenGet = async function (username,password) {
+  if (Token) return Token;
   const response = await fetch(
     `${server}/auth/login?username=${username}&password=${password}`,{
     method: 'POST',
@@ -26,7 +28,8 @@ const tokenGet = async function (username,password) {
     },
     redirect: 'follow'
   })
-  return await response.json();
+  Token = await response.json();
+  return Token;
 }
 
 const getProfile = async function (authorization) {
@@ -42,9 +45,8 @@ const getProfile = async function (authorization) {
   return await response.json();
 }
 
-const getPage = async (token, page, order, dir, size) => {
-  // const token = await tokenGet('john','changeme')
-  // const profile = await getProfile('Bearer '+token.access_token)
+const getPage = async (page, order, dir, size) => {
+  // const profile = await getProfile('Bearer '+Token.access_token)
   // console.log(profile)
   const url = Site + '?page=' + (page ? page : 0)
     + '&size=' + (size ? size : 10)
@@ -56,7 +58,7 @@ const getPage = async (token, page, order, dir, size) => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+token.access_token,
+      'Authorization': 'Bearer '+Token.access_token,
     },
     redirect: 'follow'
   })
@@ -68,43 +70,43 @@ const getRow = async (id) => {
   return await response.json();
 }
 
-const deleteRow = async (id,token) => {
+const deleteRow = async (id) => {
   await fetch(Site + '/' + id, {method: 'DELETE',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+token.access_token,
+      'Authorization': 'Bearer '+Token.access_token,
     },
   })
 }
 
-const putRow = async (row,token) => {
+const putRow = async (row) => {
   await fetch(Site + '/' + row.id, {
     method: 'PUT',
     body: JSON.stringify(row),
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+token.access_token,
+      'Authorization': 'Bearer '+Token.access_token,
     },
   })
     .then(data => console.log(data))
     .catch(e => console.log(e))
 }
 
-const addRow = async (row,token) => {
+const addRow = async (row) => {
   await fetch(Site + '/', {
     headers: {
       // 'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+token.access_token,
+      'Authorization': 'Bearer '+Token.access_token,
     },
     method: 'POST',
     body: JSON.stringify(row)
   })
 }
 export const DataService = {
-  Fields, Headers, Footers, Size,
+  Fields, Headers, Footers, Size, Token,
   tokenGet,
   getPage,
   getRow,
