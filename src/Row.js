@@ -68,7 +68,7 @@ class Row extends React.Component {
   }
 
   showRow(index) {
-    return <tr key={index} onClick={() => this.select(index)}>
+    return <tr key={index} onClick={() => this.select(index)} bgcolor={index % 2 ? '95DBC3FF' : '7FFFD4FF'}>
       <td onClick={() => this.addRow({...this.row})}>
         <div>{index}:{this.row.id}</div>
       </td>
