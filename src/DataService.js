@@ -13,13 +13,13 @@ export const AuthContext = React.createContext(undefined);
 export const ThemeContext = React.createContext('light');
 
 // Контекст активного пользователя
-export const UserContext = React.createContext({name: 'john', password: 'changeme'});
+export const UserContext = React.createContext({name: '', password: '', token:''});
 
 let Token = null;
 
 const tokenGet = async function (username, password) {
     if (Token) return Token;
-    const response = await fetch(
+    const response = username && password && await fetch(
         `${server}/auth/login?username=${username}&password=${password}`, {
             method: 'POST',
             headers: {
@@ -28,7 +28,7 @@ const tokenGet = async function (username, password) {
             },
             redirect: 'follow'
         })
-    Token = await response.json();
+    Token = response && await response.json();
     return Token;
 }
 
@@ -46,6 +46,7 @@ const getProfile = async function (authorization) {
 }
 
 const getPage = async (page, order, dir, size) => {
+    if (!Token) return []
     // const profile = await getProfile('Bearer '+Token.access_token)
     // console.log(profile)
     const url = Site + '?page=' + (page ? page : 0)
