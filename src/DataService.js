@@ -13,12 +13,12 @@ export const AuthContext = React.createContext(undefined);
 export const ThemeContext = React.createContext('light');
 
 // Контекст активного пользователя
-export const UserContext = React.createContext({name: '', password: '', token:''});
+export const UserContext = React.createContext({name: '', password: '', token: ''});
 
 let Token = null;
 
 const tokenGet = async function (username, password) {
-    if (Token) return Token;
+    // if (Token) return Token;
     const response = username && password && await fetch(
         `${server}/auth/login?username=${username}&password=${password}`, {
             method: 'POST',
@@ -29,6 +29,7 @@ const tokenGet = async function (username, password) {
             redirect: 'follow'
         })
     Token = response && await response.json();
+    console.log(Token)
     return Token;
 }
 
