@@ -141,7 +141,7 @@ class Page extends React.Component {
     async getToken(username) {
         const token = await DataService.tokenGet(username, this.password)
         if (token) await this.getData(0)
-        return undefined;
+        return token;
     }
 
     // Компонент, который может использовать несколько контекстов
